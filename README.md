@@ -15,7 +15,7 @@ DLOR 2025 is a recruitment platform designed to streamline the application proce
 ## Tech Stack  
 - **Frontend**: Blade (Laravel templating engine)  
 - **Backend**: PHP (Laravel framework)  
-- **Database**: SQLite
+- **Database**: MySQL
 
 ## Team Members  
 **UI/UX Design:**  

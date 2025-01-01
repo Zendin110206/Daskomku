@@ -18,8 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'nim',
         'password',
     ];
 
@@ -31,6 +30,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_admin',
     ];
 
     /**
@@ -39,7 +39,27 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function caas()
+    {
+        return $this->hasMany(Caas::class);
+    }
+
+    public function caasStages()
+    {
+        return $this->hasMany(CaasStage::class);
+    }
+
+    public function plottingans()
+    {
+        return $this->hasMany(Plottingan::class);
+    }
 }
+
