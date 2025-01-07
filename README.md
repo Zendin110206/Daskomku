@@ -36,7 +36,7 @@ Follow these steps to set up the project on your local machine.
 
 - **PHP 8.2**
 - **Node.js** (or pnpm or yarn or bun)
-- **Laravel 11**
+- **Laravel 10**
 - (Optional) **Laragon** (Recommended for Windows users)
 
 ### Installation

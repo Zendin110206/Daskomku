@@ -11,7 +11,7 @@ class CaasStageController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.caasStage');
     }
 
     /**
