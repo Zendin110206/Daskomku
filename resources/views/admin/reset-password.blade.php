@@ -1,5 +1,5 @@
-<!-- resources/views/admin/login.blade.php -->
-@extends('admin.layouts.app')
+<!-- resources/views/admin/reset-password.blade.php -->
+@extends('admin.layouts.app2')
 
 @section('title', 'Login Admin')
 
@@ -17,28 +17,28 @@
           class="text-center text-[#1A2254] font-im-fell mb-6
                  text-3xl sm:text-4xl md:text-5xl"
         >
-            Welcome, Pioneer!
+            Modify Your Password
         </h1>
         <p 
           class="text-center text-[#1A2254] mb-8
                  text-base sm:text-lg md:text-xl"
         >
-            Welcome to the Admin Portal. Please log in with your credentials to access administrative tools and manage the system.
+            Please enter the Old Password & New Password for minimum 8 characters
         </p>
 
-        <!-- Username -->
+        <!-- Old Password -->
         <div class="mt-4">
           <label 
-            for="username" 
+            for="old-password" 
             class="block text-[24px] sm:text-[30px] md:text-[36px] text-[#1A2254] mb-2"
           >
-            Username
+            Old Password
           </label>
           <input
             type="text"
-            id="username"
-            name="username"
-            placeholder="Enter your username"
+            id="old-password"
+            name="old-password"
+            placeholder="Enter your old password"
             class="block w-full h-[50px] sm:h-[55px] md:h-[60px] rounded-[30px] px-6 
                    text-[#1A2254] focus:outline-none focus:ring-2 
                    focus:ring-[#1A2254]/50 shadow-sm placeholder-gray-400 
@@ -46,19 +46,19 @@
           />
         </div>
 
-        <!-- Password -->
+        <!-- New Password -->
         <div class="mt-6">
           <label
             for="password"
             class="block text-[24px] sm:text-[30px] md:text-[36px] text-[#1A2254] mb-2"
           >
-            Password
+            New Password
           </label>
           <input
             type="password"
             id="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder="Enter your new password"
             class="block w-full h-[50px] sm:h-[55px] md:h-[60px] rounded-[30px] px-6 
                    text-[#1A2254] focus:outline-none focus:ring-2 
                    focus:ring-[#1A2254]/50 shadow-sm placeholder-gray-400 
@@ -77,7 +77,7 @@
                   class="text-white font-im-fell leading-[40px] sm:leading-[45px] md:leading-[51px]
                          text-xl sm:text-2xl md:text-[40px]"
                 >
-                    Start
+                    Save
                 </span>
             </button>
         </div>
