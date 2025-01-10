@@ -256,17 +256,17 @@ function manageCaAs() {
     x-data="manageCaAs()"
 >
     <!-- Judul Halaman -->
-    <h1 class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-[IM_FELL_English] mt-4">
+    <h1 class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-im-fell-english mt-4">
         Manage CaAs
     </h1>
 
     <!-- Tombol utama -->
-    <div class="mt-8 bg-[#BAC5E9] rounded-2xl p-6 sm:p-8">
+    <div class="mt-8 bg-abu-abu-keunguan rounded-2xl p-6 sm:p-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Set CaAs (buka modal) -->
             <button
-                class="bg-[#541A1A] rounded-[30px] py-3 sm:py-4 
-                       text-white text-lg sm:text-2xl md:text-3xl font-[IM_FELL_English]
+                class="bg-merah-tua rounded-[30px] py-3 sm:py-4 
+                       text-white text-lg sm:text-2xl md:text-3xl font-im-fell-english
                        hover:opacity-90 hover:shadow-lg transition w-full"
                 @click="isSetOpen = true"
             >
@@ -274,8 +274,8 @@ function manageCaAs() {
             </button>
             <!-- Add CaAs Account (buka modal) -->
             <button
-                class="bg-[#1A2254] rounded-[30px] py-3 sm:py-4 
-                       text-white text-lg sm:text-2xl md:text-3xl font-[IM_FELL_English]
+                class="bg-biru-tua rounded-[30px] py-3 sm:py-4 
+                       text-white text-lg sm:text-2xl md:text-3xl font-im-fell-english
                        hover:opacity-90 hover:shadow-lg transition w-full"
                 @click="isAddOpen = true"
             >
@@ -283,8 +283,8 @@ function manageCaAs() {
             </button>
             <!-- Import Excel (buka modal) -->
             <button
-                class="bg-[#1A5421] rounded-[30px] py-3 sm:py-4 
-                       text-white text-lg sm:text-2xl md:text-3xl font-[IM_FELL_English]
+                class="bg-hijau-tua rounded-[30px] py-3 sm:py-4 
+                       text-white text-lg sm:text-2xl md:text-3xl font-im-fell-english
                        hover:opacity-90 hover:shadow-lg transition w-full"
                 @click="isImportOpen = true"
             >
@@ -296,41 +296,41 @@ function manageCaAs() {
     <!-- Statistik (Total, Pass, Fail) -->
     <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
         <!-- Total -->
-        <div class="bg-[#BAC5E9] rounded-2xl p-4 sm:p-6 flex flex-col items-center">
-            <p class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+        <div class="bg-abu-abu-keunguan rounded-2xl p-4 sm:p-6 flex flex-col items-center">
+            <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Total
             </p>
-            <p class="text-[#1A2254] text-4xl sm:text-5xl md:text-6xl font-[IM_FELL_English] leading-tight">
+            <p class="text-biru-tua text-4xl sm:text-5xl md:text-6xl font-im-fell-english leading-tight">
                 <span x-text="caasList.length"></span>
             </p>
         </div>
         <!-- Pass -->
-        <div class="bg-[#BAC5E9] rounded-2xl p-4 sm:p-6 flex flex-col items-center">
-            <p class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+        <div class="bg-abu-abu-keunguan rounded-2xl p-4 sm:p-6 flex flex-col items-center">
+            <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Pass
             </p>
-            <p class="text-[#1A2254] text-4xl sm:text-5xl md:text-6xl font-[IM_FELL_English] leading-tight">
+            <p class="text-biru-tua text-4xl sm:text-5xl md:text-6xl font-im-fell-english leading-tight">
                 <span x-text="caasList.filter(c => c.status.toLowerCase() === 'pass').length"></span>
             </p>
         </div>
         <!-- Fail -->
-        <div class="bg-[#BAC5E9] rounded-2xl p-4 sm:p-6 flex flex-col items-center">
-            <p class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+        <div class="bg-abu-abu-keunguan rounded-2xl p-4 sm:p-6 flex flex-col items-center">
+            <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Fail
             </p>
-            <p class="text-[#1A2254] text-4xl sm:text-5xl md:text-6xl font-[IM_FELL_English] leading-tight">
+            <p class="text-biru-tua text-4xl sm:text-5xl md:text-6xl font-im-fell-english leading-tight">
                 <span x-text="caasList.filter(c => c.status.toLowerCase() === 'fail').length"></span>
             </p>
         </div>
     </div>
 
     <!-- Tabel Data CaAs -->
-    <div class="mt-8 bg-[#D9D9D9] rounded-2xl p-4 sm:p-6 md:p-8">
+    <div class="mt-8 bg-custom-gray rounded-2xl p-4 sm:p-6 md:p-8">
         <!-- Show Entries & Search -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
             <!-- Show Entries -->
             <div class="flex items-center space-x-2 mb-3 md:mb-0">
-                <label class="text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]">
+                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Show
                 </label>
                 <input 
@@ -338,22 +338,22 @@ function manageCaAs() {
                     x-model="showEntries"
                     min="1"
                     class="w-16 bg-white border border-black rounded-[10px] p-1 
-                           text-center focus:outline-none focus:ring-1 focus:ring-[#1A2254] text-sm sm:text-base"
+                           text-center focus:outline-none focus:ring-1 focus:ring-biru-tua text-sm sm:text-base"
                 >
-                <label class="text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]">
+                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Entries
                 </label>
             </div>
             <!-- Search -->
             <div class="flex items-center space-x-2">
-                <label class="text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]">
+                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Search
                 </label>
                 <input 
                     type="text" 
                     x-model="searchTerm"
                     class="bg-white border border-black rounded-[30px] px-3 py-1 
-                           focus:outline-none focus:ring-1 focus:ring-[#1A2254] text-sm sm:text-base"
+                           focus:outline-none focus:ring-1 focus:ring-biru-tua text-sm sm:text-base"
                     placeholder="Type anything..."
                 >
             </div>
@@ -366,43 +366,43 @@ function manageCaAs() {
                 <thead class="bg-white">
                     <tr class="border-b border-black">
                         <!-- Kolom No. (index) -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             No.
                         </th>
                         <!-- NIM -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             NIM
                         </th>
                         <!-- Name -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Name
                         </th>
                         <!-- Email -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Email
                         </th>
                         <!-- Major -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Major
                         </th>
                         <!-- Class -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Class
                         </th>
                         <!-- Gems -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Gems
                         </th>
                         <!-- Status -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Status
                         </th>
                         <!-- State -->
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             State
                         </th>
                         <!-- Action -->
-                        <th class="py-3 px-3 text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Action
                         </th>
                     </tr>
@@ -412,67 +412,67 @@ function manageCaAs() {
                     <template x-for="(caas, i) in paginatedData" :key="caas.nim">
                         <tr class="border-b border-black last:border-b-0">
                             <!-- No. (index + 1) -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base">
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base">
                                 <span x-text="(currentPage - 1) * showEntries + i + 1"></span>.
                             </td>
                             <!-- NIM -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.nim"
                             ></td>
                             <!-- Name -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.name"
                             ></td>
                             <!-- Email -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.email"
                             ></td>
                             <!-- Major -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.major"
                             ></td>
                             <!-- Class -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.className"
                             ></td>
                             <!-- Gems -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.gems"
                             ></td>
 
                             <!-- Status (warna mencolok) -->
                             <td 
-                                class="py-3 px-3 border-r border-black font-[IM_FELL_English] text-sm sm:text-base"
+                                class="py-3 px-3 border-r border-black font-im-fell-english text-sm sm:text-base"
                                 :class="{
                                     'text-green-600 font-semibold': caas.status.toLowerCase() === 'pass',
                                     'text-red-600 font-semibold': caas.status.toLowerCase() === 'fail',
-                                    'text-[#1A2254]': !['pass','fail'].includes(caas.status.toLowerCase())
+                                    'text-biru-tua': !['pass','fail'].includes(caas.status.toLowerCase())
                                 }"
                                 x-text="caas.status"
                             ></td>
 
                             <!-- State -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.state"
                             ></td>
 
                             <!-- Action Buttons -->
-                            <td class="py-3 px-3 text-[#1A2254] font-[IM_FELL_English] text-sm sm:text-base">
+                            <td class="py-3 px-3 text-biru-tua font-im-fell-english text-sm sm:text-base">
                                 <div class="flex flex-wrap gap-2">
                                     <button 
-                                        class="bg-[#1A5421] rounded-[15px] px-3 py-1 text-white hover:opacity-90 hover:shadow-md transition"
+                                        class="bg-hijau-tua rounded-[15px] px-3 py-1 text-white hover:opacity-90 hover:shadow-md transition"
                                         @click="viewCaas(caas)"
                                     >
                                         View
                                     </button>
                                     <button 
-                                        class="bg-[#1A2254] rounded-[15px] px-3 py-1 text-white hover:opacity-90 hover:shadow-md transition"
+                                        class="bg-biru-tua rounded-[15px] px-3 py-1 text-white hover:opacity-90 hover:shadow-md transition"
                                         @click="editCaas(caas)"
                                     >
                                         Edit
                                     </button>
                                     <button 
-                                        class="bg-[#541A1A] rounded-[15px] px-3 py-1 text-white hover:opacity-90 hover:shadow-md transition"
+                                        class="bg-merah-tua rounded-[15px] px-3 py-1 text-white hover:opacity-90 hover:shadow-md transition"
                                         @click="confirmDelete(caas)"
                                     >
                                         Erase
@@ -486,10 +486,10 @@ function manageCaAs() {
         </div>
 
         <!-- Info 'Showing x to y of z entries' -->
-        <div class="mt-4 text-sm sm:text-base text-[#1A2254]" x-text="showingText"></div>
+        <div class="mt-4 text-sm sm:text-base text-biru-tua" x-text="showingText"></div>
 
         <!-- Navigasi pagination -->
-        <div class="mt-2 flex items-center space-x-2 text-sm sm:text-base text-[#1A2254]">
+        <div class="mt-2 flex items-center space-x-2 text-sm sm:text-base text-biru-tua">
             <!-- Tombol Previous -->
             <button 
                 class="px-2 py-1 border rounded disabled:opacity-50"
@@ -503,7 +503,7 @@ function manageCaAs() {
             <template x-for="page in totalPages" :key="page">
                 <button 
                     class="px-2 py-1 border rounded"
-                    :class="currentPage === page ? 'bg-[#1A2254] text-white' : ''"
+                    :class="currentPage === page ? 'bg-biru-tua text-white' : ''"
                     @click="goToPage(page)"
                     x-text="page"
                 ></button>
@@ -528,7 +528,7 @@ function manageCaAs() {
         x-show="isSetOpen"
         x-transition
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
                 @click="isSetOpen = false; resetSetForm();"
@@ -536,7 +536,7 @@ function manageCaAs() {
                 &times;
             </button>
 
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Set CaAs
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -544,7 +544,7 @@ function manageCaAs() {
             <p class="text-xl sm:text-2xl mb-2">NIM</p>
             <input 
                 type="text" 
-                class="w-full bg-[#D9D9D9] rounded-2xl p-4 mb-4 text-[#1A2254]"
+                class="w-full bg-custom-gray rounded-2xl p-4 mb-4 text-biru-tua"
                 placeholder="Enter NIM..."
                 x-model="setNim"
             >
@@ -552,13 +552,13 @@ function manageCaAs() {
             <p class="text-xl sm:text-2xl mb-2">New Password</p>
             <input 
                 type="password" 
-                class="w-full bg-[#D9D9D9] rounded-2xl p-4 mb-6 text-[#1A2254]"
+                class="w-full bg-custom-gray rounded-2xl p-4 mb-6 text-biru-tua"
                 placeholder="Enter new password..."
                 x-model="setPassword"
             >
 
             <button 
-                class="bg-[#BFBAE9] text-[#1A2254] px-6 py-3 rounded-2xl hover:opacity-90 transition"
+                class="bg-abu-abu2 text-biru-tua px-6 py-3 rounded-2xl hover:opacity-90 transition"
                 @click="saveSetCaas"
             >
                 Save
@@ -574,7 +574,7 @@ function manageCaAs() {
         x-show="isAddOpen"
         x-transition
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-xl relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-xl relative">
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
                 @click="isAddOpen = false; resetAddForm();"
@@ -582,7 +582,7 @@ function manageCaAs() {
                 &times;
             </button>
 
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Add CaAs
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -593,7 +593,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">NIM</label>
                     <input 
                         type="text"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="12-digit NIM..."
                         x-model="addNim"
                     >
@@ -603,7 +603,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">Name</label>
                     <input 
                         type="text"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter name..."
                         x-model="addName"
                     >
@@ -613,7 +613,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">Email</label>
                     <input 
                         type="email"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter email..."
                         x-model="addEmail"
                     >
@@ -623,7 +623,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">Password</label>
                     <input 
                         type="password"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter password..."
                         x-model="addPassword"
                     >
@@ -633,7 +633,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">Major</label>
                     <input 
                         type="text"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter major..."
                         x-model="addMajor"
                     >
@@ -643,7 +643,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">Class</label>
                     <input 
                         type="text"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter class..."
                         x-model="addClass"
                     >
@@ -653,7 +653,7 @@ function manageCaAs() {
                     <label class="block text-xl mb-1">Gems</label>
                     <input 
                         type="text"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter gems..."
                         x-model="addGems"
                     >
@@ -662,7 +662,7 @@ function manageCaAs() {
                 <div>
                     <label class="block text-xl mb-1">State</label>
                     <select 
-                        class="w-full bg-[#AC9FB5] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-abu-abu3 rounded-2xl p-3 text-biru-tua"
                         x-model="addState"
                     >
                         <option value="" disabled>Select state...</option>
@@ -675,7 +675,7 @@ function manageCaAs() {
                 <div class="sm:col-span-2">
                     <label class="block text-xl mb-1">Status</label>
                     <select 
-                        class="w-full bg-[#AC9FB5] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-abu-abu3 rounded-2xl p-3 text-biru-tua"
                         x-model="addStatus"
                     >
                         <option value="" disabled>Select status...</option>
@@ -688,7 +688,7 @@ function manageCaAs() {
 
             <div class="mt-6">
                 <button 
-                    class="bg-[#BAC5E9] text-[#1A2254] px-6 py-2 rounded-2xl hover:opacity-90 transition"
+                    class="bg-abu-abu-keunguan text-biru-tua px-6 py-2 rounded-2xl hover:opacity-90 transition"
                     @click="saveAddCaas"
                 >
                     Save
@@ -705,7 +705,7 @@ function manageCaAs() {
         x-show="isImportOpen"
         x-transition
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
                 @click="isImportOpen = false; resetImport();"
@@ -713,7 +713,7 @@ function manageCaAs() {
                 &times;
             </button>
 
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Import Excel
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -721,7 +721,7 @@ function manageCaAs() {
             <p class="text-xl sm:text-2xl mb-2">
                 Format file: (NIM, Name, Email, Major, Class, etc)
             </p>
-            <div class="bg-[#D9D9D9] rounded-2xl p-4 sm:p-6 mb-4 text-[#1A2254]">
+            <div class="bg-custom-gray rounded-2xl p-4 sm:p-6 mb-4 text-biru-tua">
                 <p>NIM, Name, Major, Email, Class ...</p>
             </div>
 
@@ -729,7 +729,7 @@ function manageCaAs() {
             <p class="text-xl sm:text-2xl mb-2">Choose File</p>
             <label class="inline-block mb-4">
                 <div 
-                    class="bg-[#1A2254] border border-white py-2 px-4 
+                    class="bg-biru-tua border border-white py-2 px-4 
                             rounded-2xl cursor-pointer hover:opacity-90 inline-block"
                 >
                     <span x-text="chosenFile ? chosenFile.name : 'No File Chosen'"></span>
@@ -743,7 +743,7 @@ function manageCaAs() {
             </label>
 
             <button 
-                class="bg-[#BAC5E9] text-[#1A2254] px-6 py-3 rounded-2xl hover:opacity-90 transition"
+                class="bg-abu-abu-keunguan text-biru-tua px-6 py-3 rounded-2xl hover:opacity-90 transition"
                 @click="saveImport"
             >
                 Import
@@ -759,7 +759,7 @@ function manageCaAs() {
         x-show="isViewOpen"
         x-transition
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
                 @click="isViewOpen = false; selectedCaas = null;"
@@ -767,7 +767,7 @@ function manageCaAs() {
                 &times;
             </button>
 
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 View CaAs
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -805,7 +805,7 @@ function manageCaAs() {
         x-show="isEditOpen"
         x-transition
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-xl relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-xl relative">
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
                 @click="isEditOpen = false; selectedCaas = null;"
@@ -813,7 +813,7 @@ function manageCaAs() {
                 &times;
             </button>
 
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Edit CaAs
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -825,7 +825,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">NIM</label>
                         <input 
                             type="text" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.nim"
                             readonly
                         >
@@ -835,7 +835,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">Name</label>
                         <input 
                             type="text" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.name"
                         >
                     </div>
@@ -844,7 +844,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">Email</label>
                         <input 
                             type="email" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.email"
                         >
                     </div>
@@ -853,7 +853,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">Password</label>
                         <input 
                             type="text" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.password"
                         >
                     </div>
@@ -862,7 +862,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">Major</label>
                         <input 
                             type="text" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.major"
                         >
                     </div>
@@ -871,7 +871,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">Class</label>
                         <input 
                             type="text" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.className"
                         >
                     </div>
@@ -880,7 +880,7 @@ function manageCaAs() {
                         <label class="block text-xl mb-1">Gems</label>
                         <input 
                             type="text" 
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.gems"
                         >
                     </div>
@@ -888,7 +888,7 @@ function manageCaAs() {
                     <div>
                         <label class="block text-xl mb-1">Status</label>
                         <select 
-                            class="w-full bg-[#AC9FB5] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-abu-abu3 rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.status"
                         >
                             <template x-for="sts in statuses" :key="sts">
@@ -900,7 +900,7 @@ function manageCaAs() {
                     <div>
                         <label class="block text-xl mb-1">State</label>
                         <select 
-                            class="w-full bg-[#AC9FB5] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-abu-abu3 rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.state"
                         >
                             <template x-for="st in states" :key="st">
@@ -913,7 +913,7 @@ function manageCaAs() {
 
             <div class="mt-6">
                 <button 
-                    class="bg-[#BAC5E9] text-[#1A2254] px-6 py-2 rounded-2xl hover:opacity-90 transition"
+                    class="bg-abu-abu-keunguan text-biru-tua px-6 py-2 rounded-2xl hover:opacity-90 transition"
                     @click="saveEditCaas"
                 >
                     Update
@@ -930,7 +930,7 @@ function manageCaAs() {
         x-show="isDeleteOpen"
         x-transition
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
                 @click="isDeleteOpen = false; selectedCaas = null;"
@@ -938,7 +938,7 @@ function manageCaAs() {
                 &times;
             </button>
 
-            <h2 class="text-2xl sm:text-3xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-2xl sm:text-3xl font-im-fell-english mb-4">
                 Are you sure?
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -951,7 +951,7 @@ function manageCaAs() {
 
             <div class="flex justify-end gap-4">
                 <button
-                    class="bg-gray-300 text-[#1A2254] px-4 py-2 rounded-2xl hover:opacity-90 transition"
+                    class="bg-gray-300 text-biru-tua px-4 py-2 rounded-2xl hover:opacity-90 transition"
                     @click="isDeleteOpen = false; selectedCaas = null;"
                 >
                     Cancel

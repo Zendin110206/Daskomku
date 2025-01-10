@@ -18,7 +18,7 @@
     style="background-image: url('{{ asset('images/Background-1-Admin.png') }}');"
 >
 <!-- Overlay (lapisan abu-abu 40%) -->
-<div class="absolute inset-0 bg-[#D9D9D9] opacity-40 z-0"></div>
+<div class="absolute inset-0 bg-custom-gray opacity-40 z-0"></div>
 
     {{-- HEADER (fixed) --}}
     <header 
@@ -31,12 +31,12 @@
                     class="p-2 flex flex-col space-y-1 sm:space-y-2" 
                     @click="open = !open"
                 >
-                    <span class="block w-8 h-1 bg-[#1A2254] rounded-lg sm:w-12 sm:h-2"></span>
-                    <span class="block w-8 h-1 bg-[#1A2254] rounded-lg sm:w-12 sm:h-2"></span>
-                    <span class="block w-8 h-1 bg-[#1A2254] rounded-lg sm:w-12 sm:h-2"></span>
+                    <span class="block w-8 h-1 bg-biru-tua rounded-lg sm:w-12 sm:h-2"></span>
+                    <span class="block w-8 h-1 bg-biru-tua rounded-lg sm:w-12 sm:h-2"></span>
+                    <span class="block w-8 h-1 bg-biru-tua rounded-lg sm:w-12 sm:h-2"></span>
                 </button>
 
-                <h1 class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-[IM_FELL_English]">
+                <h1 class="text-biru-tua text-xl sm:text-2xl md:text-3xl lg:text-4xl font-im-fell-english">
                     DLOR 2025
                 </h1>
             </div>
@@ -45,7 +45,7 @@
             <div class="relative flex items-center space-x-2 sm:space-x-3 md:space-x-4">
                 <button
                     @click="isProfileOpen = !isProfileOpen"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center border-2 border-[#1A2254]"
+                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center border-2 border-biru-tua"
                 >
                     {{-- SVG Profil --}}
                     <svg
@@ -65,7 +65,7 @@
                 </button>
 
                 <!-- AUL Text -->
-                <span class="hidden sm:block text-[#1A2254] text-lg sm:text-xl md:text-2xl lg:text-3xl font-[IM_FELL_English]">
+                <span class="hidden sm:block text-biru-tua text-lg sm:text-xl md:text-2xl lg:text-3xl font-im-fell-english">
                     AUL
                 </span>
 
@@ -76,12 +76,12 @@
                     @click.away="isProfileOpen = false"
                 >
                     <button
-                        class="w-full text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English] mb-2"
+                        class="w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english mb-2"
                     >
                         Change Password
                     </button>
                     <button
-                        class="w-full text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]"
+                        class="w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english"
                     >
                         Log Out
                     </button>
@@ -98,7 +98,7 @@
         <nav class="py-6 md:py-8 flex flex-col space-y-4 md:space-y-6">
             @foreach(['Dashboard', 'Announcement', 'Manage CaAs', 'Manage Gems'] as $item)
                 <button
-                    class="text-left px-4 py-2 text-white text-base sm:text-lg md:text-xl lg:text-2xl font-[IM_FELL_English]
+                    class="text-left px-4 py-2 text-white text-base sm:text-lg md:text-xl lg:text-2xl font-im-fell-english
                            hover:bg-white/10 transition-colors duration-200"
                 >
                     {{ $item }}
@@ -116,10 +116,10 @@
 
     {{-- FOOTER (posisi di bawah, atau 'sticky' ketika konten sedikit) --}}
     <footer
-    class="w-full h-20 md:h-24 bg-[#1A2254] flex items-center justify-center px-2"
+    class="w-full h-20 md:h-24 bg-biru-tua flex items-center justify-center px-2"
 >
     <p
-        class="text-white text-base sm:text-xl md:text-2xl lg:text-3xl font-[IM_FELL_English] text-center"
+        class="text-white text-base sm:text-xl md:text-2xl lg:text-3xl font-im-fell-english text-center"
     >
         ©Crystal Cavern. DLOR 2025. All Rights Reserved.
     </p>

@@ -208,20 +208,20 @@
     x-data="manageShift()"
 >
     <!-- Judul Halaman -->
-    <h1 class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-[IM_FELL_English] mt-4">
+    <h1 class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-im-fell-english mt-4">
         Manage Shift
     </h1>
 
     <!-- Tombol utama (4 dalam 1 baris) -->
     <div 
-    class="mt-8 bg-[#BAC5E9] rounded-2xl p-6 sm:p-8 w-full px-4"
+    class="mt-8 bg-abu-abu-keunguan rounded-2xl p-6 sm:p-8 w-full px-4"
 >
     <!-- Flex: kolom di mobile, baris di layar md+ -->
     <div class="flex flex-col md:flex-row gap-4">
         
         <!-- Reset Plot -->
         <button
-            class="flex-1 bg-[#541A1A] text-white font-[IM_FELL_English]
+            class="flex-1 bg-merah-tua text-white font-im-fell-english
                    rounded-[30px] py-4 sm:py-6 md:py-6
                    text-lg sm:text-2xl md:text-3xl text-center
                    hover:opacity-90 hover:shadow-lg transition"
@@ -232,7 +232,7 @@
 
         <!-- Reset Shift -->
         <button
-            class="flex-1 bg-[#1A2254] text-white font-[IM_FELL_English]
+            class="flex-1 bg-biru-tua text-white font-im-fell-english
                    rounded-[30px] py-4 sm:py-6 md:py-6
                    text-lg sm:text-2xl md:text-3xl text-center
                    hover:opacity-90 hover:shadow-lg transition"
@@ -243,7 +243,7 @@
 
         <!-- View Plot -->
         <button
-            class="flex-1 bg-[#1A5421] text-white font-[IM_FELL_English]
+            class="flex-1 bg-hijau-tua text-white font-im-fell-english
                    rounded-[30px] py-4 sm:py-6 md:py-6
                    text-lg sm:text-2xl md:text-3xl text-center
                    hover:opacity-90 hover:shadow-lg transition"
@@ -254,7 +254,7 @@
 
         <!-- Add Shift -->
         <button
-            class="flex-1 bg-custom-green text-white font-[IM_FELL_English]
+            class="flex-1 bg-custom-green text-white font-im-fell-english
                    rounded-[30px] py-4 sm:py-6 md:py-6
                    text-lg sm:text-2xl md:text-3xl text-center
                    hover:opacity-90 hover:shadow-lg transition"
@@ -269,41 +269,41 @@
     <!-- Contoh Statistik -->
     <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
         <!-- Total Shifts -->
-        <div class="bg-[#BAC5E9] rounded-2xl p-4 sm:p-6 flex flex-col items-center">
-            <p class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+        <div class="bg-abu-abu-keunguan rounded-2xl p-4 sm:p-6 flex flex-col items-center">
+            <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Total Shifts
             </p>
-            <p class="text-[#1A2254] text-4xl sm:text-5xl md:text-6xl font-[IM_FELL_English] leading-tight">
+            <p class="text-biru-tua text-4xl sm:text-5xl md:text-6xl font-im-fell-english leading-tight">
                 <span x-text="shiftList.length"></span>
             </p>
         </div>
         <!-- Earliest Date -->
-        <div class="bg-[#BAC5E9] rounded-2xl p-4 sm:p-6 flex flex-col items-center">
-            <p class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+        <div class="bg-abu-abu-keunguan rounded-2xl p-4 sm:p-6 flex flex-col items-center">
+            <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Earliest Date
             </p>
-            <p class="text-[#1A2254] text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] leading-tight">
+            <p class="text-biru-tua text-2xl sm:text-3xl md:text-4xl font-im-fell-english leading-tight">
                 <span x-text="shiftList.length ? shiftList[0].date : '-'"></span>
             </p>
         </div>
         <!-- Largest Quota -->
-        <div class="bg-[#BAC5E9] rounded-2xl p-4 sm:p-6 flex flex-col items-center">
-            <p class="text-[#1A2254] text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+        <div class="bg-abu-abu-keunguan rounded-2xl p-4 sm:p-6 flex flex-col items-center">
+            <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Largest Quota
             </p>
-            <p class="text-[#1A2254] text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] leading-tight">
+            <p class="text-biru-tua text-2xl sm:text-3xl md:text-4xl font-im-fell-english leading-tight">
                 <span x-text="Math.max(...shiftList.map(s => s.quota))"></span>
             </p>
         </div>
     </div>
 
     <!-- Tabel Shift -->
-    <div class="mt-8 bg-[#D9D9D9] rounded-2xl p-4 sm:p-6 md:p-8">
+    <div class="mt-8 bg-custom-gray rounded-2xl p-4 sm:p-6 md:p-8">
         <!-- Show Entries & Search -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
             <!-- Show Entries -->
             <div class="flex items-center space-x-2 mb-3 md:mb-0">
-                <label class="text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]">
+                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Show
                 </label>
                 <input 
@@ -311,23 +311,23 @@
                     x-model="showEntries"
                     min="1"
                     class="w-16 bg-white border border-black rounded-[10px] p-1 
-                           text-center focus:outline-none focus:ring-1 focus:ring-[#1A2254]
+                           text-center focus:outline-none focus:ring-1 focus:ring-biru-tua
                            text-sm sm:text-base"
                 >
-                <label class="text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]">
+                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Entries
                 </label>
             </div>
             <!-- Search -->
             <div class="flex items-center space-x-2">
-                <label class="text-[#1A2254] text-base sm:text-lg md:text-xl font-[IM_FELL_English]">
+                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Search
                 </label>
                 <input 
                     type="text" 
                     x-model="searchTerm"
                     class="bg-white border border-black rounded-[30px] px-3 py-1 
-                           focus:outline-none focus:ring-1 focus:ring-[#1A2254]
+                           focus:outline-none focus:ring-1 focus:ring-biru-tua
                            text-sm sm:text-base"
                     placeholder="Search shift..."
                 >
@@ -339,28 +339,28 @@
             <table class="min-w-full border border-black rounded-md overflow-hidden table-auto">
                 <thead class="bg-white">
                     <tr class="border-b border-black">
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254]
-                                   font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg">
                             No.
                         </th>
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254]
-                                   font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg">
                             Date
                         </th>
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254]
-                                   font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg">
                             Shift No.
                         </th>
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254]
-                                   font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg">
                             Time
                         </th>
-                        <th class="py-3 px-3 border-r border-black text-[#1A2254]
-                                   font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 border-r border-black text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg">
                             Quota
                         </th>
-                        <th class="py-3 px-3 text-[#1A2254]
-                                   font-[IM_FELL_English] text-sm sm:text-base md:text-lg">
+                        <th class="py-3 px-3 text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg">
                             Action
                         </th>
                     </tr>
@@ -369,51 +369,51 @@
                     <template x-for="(shift, i) in paginatedData" :key="shift.id">
                         <tr class="border-b border-black last:border-b-0">
                             <!-- No -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254]
-                                       font-[IM_FELL_English] text-sm sm:text-base">
+                            <td class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base">
                                 <span x-text="(currentPage - 1) * showEntries + i + 1"></span>.
                             </td>
                             <!-- Date -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254]
-                                       font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base"
                                 x-text="shift.date"
                             ></td>
                             <!-- Shift No -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254]
-                                       font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base"
                                 x-text="shift.shiftNo"
                             ></td>
                             <!-- Time -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254]
-                                       font-[IM_FELL_English] text-sm sm:text-base">
+                            <td class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base">
                                 <span x-text="shift.timeStart"></span> - 
                                 <span x-text="shift.timeEnd"></span>
                             </td>
                             <!-- Quota -->
-                            <td class="py-3 px-3 border-r border-black text-[#1A2254]
-                                       font-[IM_FELL_English] text-sm sm:text-base"
+                            <td class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base"
                                 x-text="shift.quota"
                             ></td>
                             <!-- Action -->
-                            <td class="py-3 px-3 text-[#1A2254]
-                                       font-[IM_FELL_English] text-sm sm:text-base">
+                            <td class="py-3 px-3 text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base">
                                 <div class="flex flex-wrap gap-2">
                                     <button 
-                                        class="bg-[#1A5421] rounded-[15px] px-3 py-1 text-white
+                                        class="bg-hijau-tua rounded-[15px] px-3 py-1 text-white
                                                hover:opacity-90 hover:shadow-md transition"
                                         @click="viewShift(shift)"
                                     >
                                         View
                                     </button>
                                     <button 
-                                        class="bg-[#1A2254] rounded-[15px] px-3 py-1 text-white
+                                        class="bg-biru-tua rounded-[15px] px-3 py-1 text-white
                                                hover:opacity-90 hover:shadow-md transition"
                                         @click="editShift(shift)"
                                     >
                                         Edit
                                     </button>
                                     <button 
-                                        class="bg-[#541A1A] rounded-[15px] px-3 py-1 text-white
+                                        class="bg-merah-tua rounded-[15px] px-3 py-1 text-white
                                                hover:opacity-90 hover:shadow-md transition"
                                         @click="confirmDelete(shift)"
                                     >
@@ -428,10 +428,10 @@
         </div>
 
         <!-- Info 'Showing x to y of z entries' -->
-        <div class="mt-4 text-sm sm:text-base text-[#1A2254]" x-text="showingText"></div>
+        <div class="mt-4 text-sm sm:text-base text-biru-tua" x-text="showingText"></div>
 
         <!-- Navigasi pagination -->
-        <div class="mt-2 flex items-center space-x-2 text-sm sm:text-base text-[#1A2254]">
+        <div class="mt-2 flex items-center space-x-2 text-sm sm:text-base text-biru-tua">
             <button 
                 class="px-2 py-1 border rounded disabled:opacity-50"
                 :disabled="currentPage <= 1"
@@ -442,7 +442,7 @@
             <template x-for="page in totalPages" :key="page">
                 <button 
                     class="px-2 py-1 border rounded"
-                    :class="currentPage === page ? 'bg-[#1A2254] text-white' : ''"
+                    :class="currentPage === page ? 'bg-biru-tua text-white' : ''"
                     @click="goToPage(page)"
                     x-text="page"
                 ></button>
@@ -472,7 +472,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -480,7 +480,7 @@
             >
                 &times;
             </button>
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Reset Plot
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -491,14 +491,14 @@
             </p>
             <div class="flex justify-end gap-4">
                 <button
-                    class="bg-gray-300 text-[#1A2254] px-4 py-2 rounded-2xl
+                    class="bg-gray-300 text-biru-tua px-4 py-2 rounded-2xl
                            hover:opacity-90 transition"
                     @click="isResetPlotOpen = false"
                 >
                     Cancel
                 </button>
                 <button
-                    class="bg-[#BAC5E9] text-[#1A2254] px-4 py-2 rounded-2xl
+                    class="bg-abu-abu-keunguan text-biru-tua px-4 py-2 rounded-2xl
                            hover:opacity-90 transition"
                     @click="confirmResetPlot"
                 >
@@ -519,7 +519,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -527,7 +527,7 @@
             >
                 &times;
             </button>
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Reset Shift
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -538,14 +538,14 @@
             </p>
             <div class="flex justify-end gap-4">
                 <button
-                    class="bg-gray-300 text-[#1A2254] px-4 py-2 rounded-2xl
+                    class="bg-gray-300 text-biru-tua px-4 py-2 rounded-2xl
                            hover:opacity-90 transition"
                     @click="isResetShiftOpen = false"
                 >
                     Cancel
                 </button>
                 <button
-                    class="bg-[#BAC5E9] text-[#1A2254] px-4 py-2 rounded-2xl
+                    class="bg-abu-abu-keunguan text-biru-tua px-4 py-2 rounded-2xl
                            hover:opacity-90 transition"
                     @click="confirmResetShift"
                 >
@@ -566,7 +566,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -574,7 +574,7 @@
             >
                 &times;
             </button>
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 View Plot
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -584,7 +584,7 @@
             </p>
             <div class="flex justify-end">
                 <button
-                    class="bg-[#BAC5E9] text-[#1A2254] px-4 py-2 rounded-2xl
+                    class="bg-abu-abu-keunguan text-biru-tua px-4 py-2 rounded-2xl
                            hover:opacity-90 transition"
                     @click="viewPlot"
                 >
@@ -605,7 +605,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -613,19 +613,19 @@
             >
                 &times;
             </button>
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Add Shift
             </h2>
             <hr class="border-white/50 mb-6" />
 
             <!-- Form Add Shift -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[#1A2254]">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-biru-tua">
                 <!-- Shift No -->
                 <div>
                     <label class="block text-xl mb-1 text-white">Shift No.</label>
                     <input 
                         type="text"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         x-model="addShiftNo"
                         placeholder="Misal: 1, 2, 3..."
                     >
@@ -635,7 +635,7 @@
                     <label class="block text-xl mb-1 text-white">Date</label>
                     <input 
                         type="date"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         x-model="addDate"
                     >
                 </div>
@@ -644,7 +644,7 @@
                     <label class="block text-xl mb-1 text-white">Time Start</label>
                     <input 
                         type="time"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         x-model="addTimeStart"
                     >
                 </div>
@@ -653,7 +653,7 @@
                     <label class="block text-xl mb-1 text-white">Time End</label>
                     <input 
                         type="time"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         x-model="addTimeEnd"
                     >
                 </div>
@@ -663,7 +663,7 @@
                     <input 
                         type="number"
                         min="0"
-                        class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         x-model="addQuota"
                     >
                 </div>
@@ -671,7 +671,7 @@
 
             <div class="mt-6 flex justify-end">
                 <button 
-                    class="bg-[#BAC5E9] text-[#1A2254] px-6 py-3 rounded-2xl hover:opacity-90 transition"
+                    class="bg-abu-abu-keunguan text-biru-tua px-6 py-3 rounded-2xl hover:opacity-90 transition"
                     @click="saveAddShift"
                 >
                     Save
@@ -691,7 +691,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -699,7 +699,7 @@
             >
                 &times;
             </button>
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 View Shift
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -728,7 +728,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-lg relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -736,19 +736,19 @@
             >
                 &times;
             </button>
-            <h2 class="text-3xl sm:text-4xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-3xl sm:text-4xl font-im-fell-english mb-4">
                 Edit Shift
             </h2>
             <hr class="border-white/50 mb-6" />
 
             <template x-if="selectedShift">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[#1A2254]">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-biru-tua">
                     <!-- ID (readonly) -->
                     <div>
                         <label class="block text-xl mb-1 text-white">ID</label>
                         <input 
                             type="text"
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedShift.id"
                             readonly
                         >
@@ -758,7 +758,7 @@
                         <label class="block text-xl mb-1 text-white">Shift No.</label>
                         <input 
                             type="text"
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedShift.shiftNo"
                         >
                     </div>
@@ -767,7 +767,7 @@
                         <label class="block text-xl mb-1 text-white">Date</label>
                         <input 
                             type="date"
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedShift.date"
                         >
                     </div>
@@ -776,7 +776,7 @@
                         <label class="block text-xl mb-1 text-white">Time Start</label>
                         <input 
                             type="time"
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedShift.timeStart"
                         >
                     </div>
@@ -785,7 +785,7 @@
                         <label class="block text-xl mb-1 text-white">Time End</label>
                         <input 
                             type="time"
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedShift.timeEnd"
                         >
                     </div>
@@ -795,7 +795,7 @@
                         <input 
                             type="number"
                             min="0"
-                            class="w-full bg-[#D9D9D9] rounded-2xl p-3 text-[#1A2254]"
+                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedShift.quota"
                         >
                     </div>
@@ -804,7 +804,7 @@
 
             <div class="mt-6 flex justify-end">
                 <button 
-                    class="bg-[#BAC5E9] text-[#1A2254] px-6 py-3 rounded-2xl hover:opacity-90 transition"
+                    class="bg-abu-abu-keunguan text-biru-tua px-6 py-3 rounded-2xl hover:opacity-90 transition"
                     @click="saveEditShift"
                 >
                     Update
@@ -824,7 +824,7 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-90"
     >
-        <div class="bg-[#1A2254] text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
+        <div class="bg-biru-tua text-white rounded-2xl p-6 sm:p-8 w-[90%] max-w-md relative">
             <!-- Close -->
             <button 
                 class="absolute top-3 right-3 text-2xl font-bold"
@@ -832,7 +832,7 @@
             >
                 &times;
             </button>
-            <h2 class="text-2xl sm:text-3xl font-[IM_FELL_English] mb-4">
+            <h2 class="text-2xl sm:text-3xl font-im-fell-english mb-4">
                 Are you sure?
             </h2>
             <hr class="border-white/50 mb-6" />
@@ -845,7 +845,7 @@
 
             <div class="flex justify-end gap-4">
                 <button
-                    class="bg-gray-300 text-[#1A2254] px-4 py-2 rounded-2xl hover:opacity-90 transition"
+                    class="bg-gray-300 text-biru-tua px-4 py-2 rounded-2xl hover:opacity-90 transition"
                     @click="isDeleteOpen = false; selectedShift = null;"
                 >
                     Cancel

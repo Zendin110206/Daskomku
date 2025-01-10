@@ -10,17 +10,17 @@
 >
     <!-- Kartu Loginnya -->
     <div 
-      class="relative bg-[#D9D9D9] rounded-[30px] p-10 shadow-lg w-full max-w-xl mx-auto"
+      class="relative bg-custom-gray rounded-[30px] p-10 shadow-lg w-full max-w-xl mx-auto"
     >
         <!-- Tulisan selamat datang -->
         <h1 
-          class="text-center text-[#1A2254] font-im-fell mb-6
+          class="text-center text-biru-tua font-im-fell-english mb-6
                  text-3xl sm:text-4xl md:text-5xl"
         >
             Modify Your Password
         </h1>
         <p 
-          class="text-center text-[#1A2254] mb-8
+          class="text-center text-biru-tua mb-8
                  text-base sm:text-lg md:text-xl"
         >
             Please enter the Old Password & New Password for minimum 8 characters
@@ -30,7 +30,7 @@
         <div class="mt-4">
           <label 
             for="old-password" 
-            class="block text-[24px] sm:text-[30px] md:text-[36px] text-[#1A2254] mb-2"
+            class="block text-[24px] sm:text-[30px] md:text-[36px] text-biru-tua mb-2"
           >
             Old Password
           </label>
@@ -40,8 +40,8 @@
             name="old-password"
             placeholder="Enter your old password"
             class="block w-full h-[50px] sm:h-[55px] md:h-[60px] rounded-[30px] px-6 
-                   text-[#1A2254] focus:outline-none focus:ring-2 
-                   focus:ring-[#1A2254]/50 shadow-sm placeholder-gray-400 
+                   text-biru-tua focus:outline-none focus:ring-2 
+                   focus:ring-biru-tua/50 shadow-sm placeholder-gray-400 
                    transition-all text-base sm:text-lg md:text-xl"
           />
         </div>
@@ -50,7 +50,7 @@
         <div class="mt-6">
           <label
             for="password"
-            class="block text-[24px] sm:text-[30px] md:text-[36px] text-[#1A2254] mb-2"
+            class="block text-[24px] sm:text-[30px] md:text-[36px] text-biru-tua mb-2"
           >
             New Password
           </label>
@@ -60,8 +60,8 @@
             name="password"
             placeholder="Enter your new password"
             class="block w-full h-[50px] sm:h-[55px] md:h-[60px] rounded-[30px] px-6 
-                   text-[#1A2254] focus:outline-none focus:ring-2 
-                   focus:ring-[#1A2254]/50 shadow-sm placeholder-gray-400 
+                   text-biru-tua focus:outline-none focus:ring-2 
+                   focus:ring-biru-tua/50 shadow-sm placeholder-gray-400 
                    transition-all text-base sm:text-lg md:text-xl"
           />
         </div>
@@ -70,11 +70,11 @@
         <div class="flex justify-center mt-8">
             <button 
               class="w-[180px] sm:w-[200px] md:w-[220px] h-[60px] sm:h-[65px] md:h-[70px] 
-                     bg-[#1A2254] rounded-[30px] flex items-center justify-center
+                     bg-biru-tua rounded-[30px] flex items-center justify-center
                      transition duration-300 hover:bg-blue-700"
             >
                 <span 
-                  class="text-white font-im-fell leading-[40px] sm:leading-[45px] md:leading-[51px]
+                  class="text-white font-im-fell-english leading-[40px] sm:leading-[45px] md:leading-[51px]
                          text-xl sm:text-2xl md:text-[40px]"
                 >
                     Save
