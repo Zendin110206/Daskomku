@@ -29,18 +29,18 @@
 >
     <!-- Judul Halaman -->
     <h1 
-        class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-[IM_FELL_English]"
+        class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-im-fell-english"
     >
         Manage Announcement
     </h1>
 
     <!-- Container Ber-background (Announcement Input) -->
     <div 
-        class="mt-8 bg-[#4D5083] rounded-[30px] p-6 sm:p-8"
+        class="mt-8 bg-ungu-muda rounded-[30px] p-6 sm:p-8"
     >
         <!-- Title -->
         <h2 
-            class="text-white text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] mb-4"
+            class="text-white text-2xl sm:text-3xl md:text-4xl font-im-fell-english mb-4"
         >
             Announcement
         </h2>
@@ -51,7 +51,7 @@
         <div class="mb-6">
             <label 
                 for="passMessage"
-                class="block text-white text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2"
+                class="block text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2"
             >
                 Pass Message
             </label>
@@ -59,8 +59,8 @@
                 id="passMessage"
                 type="text"
                 x-model="passMessage"
-                class="w-full bg-[#ACAEC9] border border-black rounded-[30px] p-3 sm:p-4 
-                       focus:outline-none focus:ring-2 focus:ring-[#1A2254] text-base sm:text-lg"
+                class="w-full bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
+                       focus:outline-none focus:ring-2 focus:ring-biru-tua text-base sm:text-lg"
             />
         </div>
 
@@ -68,7 +68,7 @@
         <div class="mb-6">
             <label 
                 for="failMessage"
-                class="block text-white text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2"
+                class="block text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2"
             >
                 Fail Message
             </label>
@@ -76,8 +76,8 @@
                 id="failMessage"
                 type="text"
                 x-model="failMessage"
-                class="w-full bg-[#ACAEC9] border border-black rounded-[30px] p-3 sm:p-4 
-                       focus:outline-none focus:ring-2 focus:ring-[#1A2254] text-base sm:text-lg"
+                class="w-full bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
+                       focus:outline-none focus:ring-2 focus:ring-biru-tua text-base sm:text-lg"
             />
         </div>
 
@@ -85,7 +85,7 @@
         <div class="mb-6">
             <label 
                 for="link"
-                class="block text-white text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2"
+                class="block text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2"
             >
                 Link
             </label>
@@ -93,15 +93,15 @@
                 id="link"
                 type="text"
                 x-model="link"
-                class="w-full bg-[#ACAEC9] border border-black rounded-[30px] p-3 sm:p-4 
-                       focus:outline-none focus:ring-2 focus:ring-[#1A2254] text-base sm:text-lg"
+                class="w-full bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
+                       focus:outline-none focus:ring-2 focus:ring-biru-tua text-base sm:text-lg"
             />
         </div>
 
         <!-- Tombol Save -->
         <button
-            class="bg-white text-[#1A2254] px-6 sm:px-8 py-2 sm:py-3 
-                   rounded-full text-base sm:text-lg md:text-xl font-[IM_FELL_English] hover:shadow-md 
+            class="bg-white text-biru-tua px-6 sm:px-8 py-2 sm:py-3 
+                   rounded-full text-base sm:text-lg md:text-xl font-im-fell-english hover:shadow-md 
                    transition-colors duration-300"
             @click="saveAnnouncement"
         >
@@ -111,12 +111,12 @@
 
     <!-- Container Preview (muncul setelah "Save") -->
     <div 
-        class="mt-10 bg-[#1A2C54] rounded-[30px] p-6 sm:p-8"
+        class="mt-10 bg-biru-tua2 rounded-[30px] p-6 sm:p-8"
         x-show="showPreview"
         x-transition
     >
         <h2 
-            class="text-white text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] mb-4"
+            class="text-white text-2xl sm:text-3xl md:text-4xl font-im-fell-english mb-4"
         >
             Preview Announcement
         </h2>
@@ -124,36 +124,36 @@
 
         <!-- Pass Message Preview -->
         <div class="mb-6">
-            <p class="text-white text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+            <p class="text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Pass Message
             </p>
             <div
-                class="bg-[#ACAEC9] border border-black rounded-[30px] p-3 sm:p-4 
-                       text-[#1A2254] text-base sm:text-lg"
+                class="bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
+                       text-biru-tua text-base sm:text-lg"
                 x-text="passMessage"
             ></div>
         </div>
 
         <!-- Fail Message Preview -->
         <div class="mb-6">
-            <p class="text-white text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+            <p class="text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Fail Message
             </p>
             <div
-                class="bg-[#ACAEC9] border border-black rounded-[30px] p-3 sm:p-4 
-                       text-[#1A2254] text-base sm:text-lg"
+                class="bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
+                       text-biru-tua text-base sm:text-lg"
                 x-text="failMessage"
             ></div>
         </div>
 
         <!-- Link Preview -->
         <div class="mb-6">
-            <p class="text-white text-xl sm:text-2xl md:text-3xl font-[IM_FELL_English] mb-2">
+            <p class="text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Link
             </p>
             <div
-                class="bg-[#ACAEC9] border border-black rounded-[30px] p-3 sm:p-4 
-                       text-[#1A2254] text-base sm:text-lg"
+                class="bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
+                       text-biru-tua text-base sm:text-lg"
                 x-text="link"
             ></div>
         </div>

@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body 
-    class="bg-cover bg-center bg-no-repeat font-im-fell-english flex flex-col items-center justify-center min-h-screen px-4 sm:px-8"
+    class="bg-cover bg-center bg-no-repeat font-im-fell-english-english flex flex-col items-center justify-center min-h-screen px-4 sm:px-8"
     style="background-image: url('{{ asset('images/Background_1.png') }}');"
 >
     <!-- Greeting Section -->
