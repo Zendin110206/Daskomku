@@ -45,7 +45,8 @@
             <div class="relative flex items-center space-x-2 sm:space-x-3 md:space-x-4">
                 <button
                     @click="isProfileOpen = !isProfileOpen"
-                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center border-2 border-biru-tua"
+                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center border-2 border-biru-tua focus:outline-none hover:scale-105 transition-transform"
+                    aria-label="Open Profile Menu"
                 >
                     {{-- SVG Profil --}}
                     <svg
@@ -71,40 +72,61 @@
 
                 <!-- Dropdown menu -->
                 <div
-                    class="absolute top-16 md:top-20 right-0 w-48 sm:w-56 bg-gray-300/50 p-3 sm:p-4 rounded shadow-md"
+                    class="absolute top-16 md:top-20 right-0 w-48 sm:w-56 bg-gray-300/90 rounded-lg shadow-xl p-3 sm:p-4 z-50"
                     x-show="isProfileOpen"
-                    @click.away="isProfileOpen = false"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    @click.outside="isProfileOpen = false"
                 >
-                    <button
-                        class="w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english mb-2"
+                    <a
+                        href="{{ route('admin.reset-password') }}"
+                        class="block w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english mb-2 hover:underline transition-all text-center"
                     >
                         Change Password
-                    </button>
-                    <button
-                        class="w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english"
+                    </a>
+                    <a
+                        href="{{ route('admin.reset-password') }}"
+                        class="block w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english hover:underline transition-all text-center"
                     >
                         Log Out
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </header>
+
+    @php
+        $navItems = [
+            'Home'           => route('admin.home'),
+            'Dashboard'      => route('admin.dashboard'),
+            'Announcement'   => route('admin.announcement'),
+            'Manage CaAs'    => route('admin.caas'),
+            'Manage Asisten' => route('admin.asisten'),
+            'Manage Gems'    => route('admin.gems'),
+            'Manage Shift'   => route('admin.shift'),
+            'View Shift'     => route('admin.view-plot'),
+        ];
+    @endphp
 
     {{-- SIDEBAR (fixed) --}}
     <aside
         class="fixed top-20 md:top-24 left-0 w-48 sm:w-56 md:w-64 h-full bg-black/40 z-40 transform transition-transform duration-300 backdrop-blur-sm"
         :class="open ? 'translate-x-0' : '-translate-x-full'"
     >
-        <nav class="py-6 md:py-8 flex flex-col space-y-4 md:space-y-6">
-            @foreach(['Dashboard', 'Announcement', 'Manage CaAs', 'Manage Gems'] as $item)
-                <button
-                    class="text-left px-4 py-2 text-white text-base sm:text-lg md:text-xl lg:text-2xl font-im-fell-english
-                           hover:bg-white/10 transition-colors duration-200"
-                >
-                    {{ $item }}
-                </button>
-            @endforeach
-        </nav>
+    <nav class="py-6 md:py-8 flex flex-col space-y-4 md:space-y-6">
+        @foreach($navItems as $label => $url)
+            <a href="{{ $url }}"
+                class="text-left px-4 py-2 text-white text-base sm:text-lg md:text-xl lg:text-2xl font-im-fell-english
+                       hover:bg-white/10 transition-colors duration-200"
+            >
+                {{ $label }}
+            </a>
+        @endforeach
+    </nav>
     </aside>
 
     <!-- WRAPPER UTAMA (z-10) agar berada di atas overlay -->
@@ -125,8 +147,6 @@
     </p>
 </footer>
 </div>
-
-
     @stack('scripts')
 </body>
 </html>
