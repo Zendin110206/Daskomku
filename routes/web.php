@@ -29,6 +29,17 @@ Route::get('/login', function () {
     return view('CaAs.loginCaas');
 });
 
+//maaf, aku gak nyadar kalau udah ada, gak nydar jadi route ku masih dibawah, minta tolong sesuiakan ya, sorry2
+Route::prefix('admin')->group(function () {
+    Route::resource('caas', CaasController::class)->only(['index', 'store', 'edit', 'update']);
+    Route::resource('shifts', ShiftController::class)->only(['index', 'store', 'edit', 'update']);
+    Route::resource('schedule-plots', PlottinganController::class)->only(['index', 'store', 'edit', 'update']);
+    Route::resource('caas-stage', CaasStageController::class)->only(['index', 'store', 'edit', 'update']);
+    Route::resource('configuration', ConfigurationController::class)->only(['index', 'store', 'edit', 'update']);
+    Route::resource('gems', RoleController::class)->only(['index', 'store', 'edit', 'update']);
+    Route::resource('stage', StageController::class)->only(['index', 'store', 'edit', 'update']);
+});
+
 // Route untuk halaman login admin
 Route::get('/admin/login', function () {
     return view('admin.login');
@@ -66,12 +77,6 @@ Route::get('/admin/gems', function () {
     return view('admin.gems');
 })->name('admin.gems');
 
-Route::prefix('admin')->group(function () {
-    Route::resource('caas', CaasController::class)->only(['index', 'store', 'edit', 'update']);
-    Route::resource('shifts', ShiftController::class)->only(['index', 'store', 'edit', 'update']);
-    Route::resource('schedule-plots', PlottinganController::class)->only(['index', 'store', 'edit', 'update']);
-    Route::resource('caas-stage', CaasStageController::class)->only(['index', 'store', 'edit', 'update']);
-    Route::resource('configuration', ConfigurationController::class)->only(['index', 'store', 'edit', 'update']);
-    Route::resource('gems', RoleController::class)->only(['index', 'store', 'edit', 'update']);
-    Route::resource('stage', StageController::class)->only(['index', 'store', 'edit', 'update']);
-});
+Route::get('/admin/asisten', function () {
+    return view('admin.asisten');
+})->name('admin.asisten');
