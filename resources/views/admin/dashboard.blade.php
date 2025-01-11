@@ -1,5 +1,5 @@
 <!-- resources/views/admin/dashboard.blade.php -->
-@extends('admin.layouts.app3')
+@extends('admin.layouts.app')
 
 @section('title', 'Dashboard - Crystal Cavern')
 
@@ -7,9 +7,9 @@
 <div 
     class="w-full max-w-7xl mx-auto px-4 py-6"
     x-data="{
-        announcement: true,
-        shift: false,
-        gems: false,
+        announcement: {{ $announcement }},
+        shift: {{ $shift }},
+        gems: {{ $gems }},
 
         // State default
         state: 'Interview',
@@ -27,12 +27,39 @@
 
         // Method (getter) untuk filtering item
         get filteredItems() {
-            if (!this.searchTerm) return []
+            if (!this.searchTerm) return this.allItems;
             // Return item yang mengandung searchTerm
             return this.allItems.filter(item => 
                 item.toLowerCase().includes(this.searchTerm.toLowerCase())
             )
-        }
+        },
+        async updateState(a, sh, g, st) {
+            try {
+                const response = await fetch('{{ route('admin.dashboard.update', ['dashboard'=>1]) }}', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        pengumuman_on : a,
+                        isi_jadwal_on : sh,
+                        role_on : g,
+                        current_stage : st,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update state');
+                }
+
+                const result = await response.json();
+                console.log(result); // Debug: Log the server's response
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while updating the state.');
+            }
+        },
     }"
 >
     <!-- Status Card -->
@@ -43,7 +70,7 @@
                 Welcome back,
             </p>
             <p class="text-2xl sm:text-3xl md:text-4xl font-im-fell-english">
-                AUL
+                {{ Auth::user()->nim }}
             </p>
         </div>
         
@@ -54,8 +81,9 @@
             <p 
                 class="text-2xl sm:text-3xl md:text-4xl font-im-fell-english" 
                 x-text="state"
-            ></p>
-        </div>
+                ></p>
+            </div>
+            
         
         <!-- Announcement Section -->
         <div class="text-center space-y-2">
@@ -109,7 +137,10 @@
                     <div 
                         class="flex items-center justify-between bg-putih rounded-full p-3 
                                cursor-pointer hover:shadow-lg transition-all"
-                        @click="announcement = !announcement"
+                        @click="
+                            announcement = !announcement;
+                            updateState(announcement, shift, gems, state);
+                        "
                     >
                         <span 
                             class="text-lg sm:text-xl md:text-2xl font-crimson text-biru-tua"
@@ -133,7 +164,10 @@
                     <div 
                         class="flex items-center justify-between bg-putih rounded-full p-3 
                                cursor-pointer hover:shadow-lg transition-all"
-                        @click="shift = !shift"
+                        @click="
+                            shift = !shift;
+                            updateState(announcement, shift, gems, state);
+                        "
                     >
                         <span 
                             class="text-lg sm:text-xl md:text-2xl font-crimson text-biru-tua"
@@ -157,7 +191,10 @@
                     <div 
                         class="flex items-center justify-between bg-putih rounded-full p-3 
                                cursor-pointer hover:shadow-lg transition-all"
-                        @click="gems = !gems"
+                        @click="
+                            gems = !gems;
+                            updateState(announcement, shift, gems, state);
+                        "
                     >
                         <span 
                             class="text-lg sm:text-xl md:text-2xl font-crimson text-biru-tua"
@@ -220,12 +257,14 @@
                         <div 
                             class="text-xl sm:text-2xl font-crimson text-biru-tua text-center 
                                    hover:bg-white hover:rounded-md py-1 transition cursor-pointer"
+                            :class="{'font-bold': item === state}"
                             x-text="item"
                             @click="
                                 // Klik item => ubah state
                                 state = item;
                                 // Bersihkan searchTerm setelah memilih item
                                 searchTerm = '';
+                                updateState(announcement, shift, gems, state);
                             "
                         ></div>
                     </template>
