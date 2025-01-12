@@ -1,4 +1,4 @@
-@extends('admin.layouts.app3')
+@extends('admin.layouts.app')
 
 @section('title', 'Manage Shift - Crystal Cavern')
 

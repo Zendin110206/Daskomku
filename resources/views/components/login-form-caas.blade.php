@@ -7,9 +7,8 @@
     <input
       type="text"
       id="username"
-      class="w-full p-3 bg-center rounded-lg shadow-md text-black text-base sm:text-lg"
+      class="w-full p-3 bg-PlaceHolder bg-center rounded-lg shadow-md text-black text-base sm:text-lg"
       placeholder="Enter your username"
-      style="background-image: url('{{ asset('images/login-placeholder.png') }}');"
     />
   </div>
 
@@ -21,23 +20,20 @@
     <input
       type="password"
       id="password"
-      class="w-full p-3 bg-center rounded-lg shadow-md text-black text-base sm:text-lg"
+      class="w-full p-3 bg-PlaceHolder bg-center rounded-lg shadow-md text-black text-base sm:text-lg"
       placeholder="Enter your password"
-      style="background-image: url('{{ asset('images/login-placeholder.png') }}');"
     />
   </div>
 
   <!-- Explore Button -->
   <button  
-    class="w-full max-w-[11rem] bg-center bg-no-repeat py-3 text-white rounded-lg text-base sm:text-lg font-serif relative transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
-    style="background-image: url('{{ asset('images/Crystal2.png') }}');"
+    class="w-full max-w-[11rem] bg-Button bg-center bg-no-repeat py-3 rounded-lg text-primary text-base sm:text-xl font-bold font-crimson-text relative transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95"
   >
-    <span
-      class="absolute inset-0 bg-center bg-no-repeat rounded-lg filter blur-md opacity-50 pointer-events-none"
-      style="background-image: url('{{ asset('images/Crystal2.png') }}');"
-    ></span>
-    <span class="relative">Explore</span>
+    <a href="/CaAs">
+      <span
+        class="absolute inset-0 bg-Button bg-center bg-no-repeat rounded-lg filter blur-md opacity-50 pointer-events-none"
+      ></span>
+      <span class="relative ">Explore</span>
+    </a>
   </button>
 </div>
-
-

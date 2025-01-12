@@ -17,7 +17,8 @@ return new class extends Migration
             $table->boolean('pengumuman_on')->default(false);
             $table->boolean('isi_jadwal_on')->default(false);
             $table->boolean('role_on')->default(false);
-            $table->foreignId('stage_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('current_stage_id')->nullable();
+            $table->foreign('current_stage_id')->references('id')->on('stages')->onDelete('set null');
         });
     }
 

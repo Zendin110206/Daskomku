@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StageEnum;
+use App\Models\Announcement;
+use App\Models\Stage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AnnouncementController extends Controller
 {
@@ -11,15 +15,30 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $stage = Stage::firstOrCreate(
+            ['id' => 1],
+            ['name'=>StageEnum::Administration->value]
+        );
+        
+        $record = Announcement::firstOrCreate(
+            ['id' => 1],
+            [
+                'success_message' => 'Kamu lolos tahap ini',
+                'fail_message' => 'Maaf kamu gagal',
+                'stage_id' => $stage->id,
+            ]
+        );
+        
+        $lastUpdated = $record->updated_at;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $data = [
+            'pass' => $record->success_message,
+            'fail' => $record->fail_message,
+            'link' => $record->link,
+            'lastUpdated' => $lastUpdated ? $lastUpdated->timestamp : null,
+        ];
+        
+        return view('admin.announcement', $data);
     }
 
     /**
@@ -27,31 +46,22 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $this->index();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $validated = $request->validate([
+            'success_message' => 'required|string|max:255',
+            'fail_message' => 'required|string|max:255',
+            'link' => 'nullable|string|max:255',
+            'stage_id' => 'required|int',
+        ]);
+        Announcement::find(1)->update($validated);
+        return redirect()->route('admin.announcement');
     }
 
     /**
@@ -59,6 +69,6 @@ class AnnouncementController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->index();
     }
 }
