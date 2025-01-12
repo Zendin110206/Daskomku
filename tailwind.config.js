@@ -56,6 +56,8 @@ export default {
                 "putih": "#fefefe",
             },
             screens: {
+                'xs': '391px',
+
                 'sm': '576px',
           
                 'md': '960px',
