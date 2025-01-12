@@ -9,7 +9,6 @@ use App\Http\Controllers\PlottinganController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\StageController;
-use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +51,14 @@ Route::get('/login', function () {
 //maaf, aku gak nyadar kalau udah ada, gak nydar jadi route ku masih dibawah, minta tolong sesuiakan ya, sorry2
 // aman bro, skrg cuma 27 line doang buat backend ini. di bawah ini ada 27 route dari admin.auth (get), admin.auth.login (post), admin.auth.logout (delete), admin.caas.create (post), admin.caas (get), admin.caas.update (put/patch)... php artisan route:list
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('home', function () {
+        return view('admin.home');
+    })->name('home');
+    
+    Route::get('reset-password', function () {
+        return view('admin.reset-password');
+    })->name('reset-password');
+
     Route::resource('auth', AdminSessionController::class)->only(['index', 'store'])->names([
         'index' => 'auth',
         'store' => 'auth.login',
@@ -81,19 +88,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ]);
     }
 });
-
-Route::get('/admin/home', function () {
-    return view('admin.home');
-})->name('admin.home');
-
-Route::get('/admin/reset-password', function () {
-    return view('admin.reset-password');
-})->name('admin.reset-password');
-
-Route::get('/admin/asisten', function () {
-    return view('admin.asisten');
-})->name('admin.asisten');
-
-Route::fallback(function () {
-    return redirect('/');
-})->middleware(RedirectIfAuthenticated::class);
