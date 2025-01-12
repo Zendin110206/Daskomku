@@ -4,47 +4,11 @@
 
 @push('scripts')
 <script>
+
+
 function manageCaAs() {
     return {
-        // ----------------------
-        // Data & Pagination
-        // ----------------------
-        caasList: [
-            {
-                nim: '123456789012', 
-                name: 'Aulia Rahma', 
-                email: 'aulia@example.com',
-                password: 's3cr3tPass',
-                major: 'Informatics',
-                className: 'IF-44-09',
-                gems: 'Radiant Quartz', 
-                status: 'Pass', 
-                state: 'Interview'
-            },
-            {
-                nim: '987654321000', 
-                name: 'John Doe', 
-                email: 'john@example.com',
-                password: 'myPass123',
-                major: 'Telecommunication',
-                className: 'TC-44-02',
-                gems: 'Emerald', 
-                status: 'Fail', 
-                state: 'Interview'
-            },
-            {
-                nim: '123450987654', 
-                name: 'Jane Smith', 
-                email: 'jane@example.com',
-                password: 'janesPassword',
-                major: 'Computer Science',
-                className: 'CS-45-01',
-                gems: 'Sapphire', 
-                status: 'Pass', 
-                state: 'Interview'
-            },
-            // ... tambahkan data lain ...
-        ],
+        caasList: @json($caasList),
         showEntries: 10,
         searchTerm: '',
         currentPage: 1,
@@ -570,7 +534,7 @@ function manageCaAs() {
          MODAL: Add CaAs
          ----------------------------- -->
     <div 
-        class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+        class="fixed inset-0 flex items-center justify-center bg-black/50 z-50 translate-y-8"
         x-show="isAddOpen"
         x-transition
     >
@@ -801,7 +765,7 @@ function manageCaAs() {
          MODAL: Edit CaAs
          ----------------------------- -->
     <div 
-        class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+        class="fixed inset-0 flex items-center justify-center bg-black/50 z-50 translate-y-8"
         x-show="isEditOpen"
         x-transition
     >

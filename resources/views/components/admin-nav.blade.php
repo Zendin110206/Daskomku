@@ -1,5 +1,5 @@
 <header
-    class="fixed top-0 left-0 w-full bg-gray-300 h-20 md:h-24 z-50 flex items-center">
+    class="fixed top-0 left-0 w-full bg-gray-300 h-20 md:h-22 z-40 flex items-center">
     <div class="flex justify-between w-full px-2 sm:px-4 md:px-6">
         <!-- Kiri: Hamburger + Brand -->
         <div class="flex items-center space-x-3">
@@ -11,12 +11,12 @@
                 <span class="block w-8 h-1 bg-biru-tua rounded-lg sm:w-12 sm:h-2"></span>
             </button>
 
-            <h1 class="text-biru-tua text-xl sm:text-2xl md:text-3xl lg:text-4xl font-im-fell-english">
+            <h1 class="text-biru-tua text-xl sm:text-2xl md:text-2xl lg:text-4xl font-im-fell-english">
                 DLOR 2025
             </h1>
         </div>
 
-        <!-- Kanan: Profile + "AUL" -->
+        <!-- Kanan: Profile + Username -->
         <div class="relative flex items-center space-x-2 sm:space-x-3 md:space-x-4">
             <button
                 @click="isProfileOpen = !isProfileOpen"
@@ -37,14 +37,13 @@
                 </svg>
             </button>
 
-            <!-- AUL Text -->
             <span class="hidden sm:block text-biru-tua text-lg sm:text-xl md:text-2xl lg:text-3xl font-im-fell-english">
                 {{ Auth::user()->nim }}
             </span>
 
             <!-- Dropdown menu -->
             <div
-                class="absolute top-16 md:top-20 right-0 w-48 sm:w-56 bg-gray-300/90 rounded-lg shadow-xl p-3 sm:p-4 z-50"
+                class="absolute top-16 md:top-20 right-0 w-48 sm:w-56 bg-gray-300/90 rounded-lg shadow-xl p-3 sm:p-4 z-40"
                 x-show="isProfileOpen"
                 x-transition:enter="transition ease-out duration-200"
                 x-transition:enter-start="opacity-0 scale-95"
@@ -77,7 +76,7 @@
     'Manage Asisten' => route('admin.asisten'),
     'Manage Gems' => route('admin.gems'),
     'Manage Shift' => route('admin.shift'),
-    'View Shift' => route('admin.view-plot'),
+    'View Plots' => route('admin.view-plot'),
     ];
 @endphp
 

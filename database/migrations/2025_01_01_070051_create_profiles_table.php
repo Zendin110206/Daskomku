@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name', 100);
-            $table->string('major', 100);
-            $table->string('class', 50);
+            $table->string('name', 100)->nullable();
+            $table->string('major', 100)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->string('class', 50)->nullable();
         });
     }
 

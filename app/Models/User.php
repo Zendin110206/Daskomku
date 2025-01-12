@@ -49,12 +49,12 @@ class User extends Authenticatable
 
     public function caas()
     {
-        return $this->hasMany(Caas::class);
+        return $this->hasOne(Caas::class);
     }
 
-    public function caasStages()
+    public function caasStage()
     {
-        return $this->hasMany(CaasStage::class);
+        return $this->hasOne(CaasStage::class);
     }
 
     public function plottingans()

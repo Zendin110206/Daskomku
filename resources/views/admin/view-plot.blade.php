@@ -14,7 +14,7 @@
             class="text-3xl sm:text-4xl md:text-5xl font-im-fell-english
                    text-white text-center sm:text-left"
         >
-            View Plot
+            View Plots
         </h1>
 
         <!-- Tombol Back -->
@@ -37,16 +37,15 @@
         <!-- Card: Total Shift -->
         <div class="bg-custom-gray rounded-[30px] p-6 flex flex-col items-center shadow-md">
             <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
-                Total Shift
+                Total Shifts
             </p>
             <p class="text-biru-tua text-5xl sm:text-6xl md:text-7xl font-im-fell-english leading-tight">
                 20
             </p>
         </div>
-        <!-- Card: Total Already Choose Shift -->
         <div class="bg-custom-gray rounded-[30px] p-6 flex flex-col items-center shadow-md">
             <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2 text-center">
-                Total Already Choose Shift
+                Taken Shifts
             </p>
             <p class="text-biru-tua text-5xl sm:text-6xl md:text-7xl font-im-fell-english leading-tight">
                 100
@@ -55,7 +54,7 @@
         <!-- Card: Not Shifted -->
         <div class="bg-biru-tua rounded-[30px] p-6 flex flex-col items-center shadow-md">
             <p class="text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
-                Not Shifted
+                Haven't Picked
             </p>
             <p class="text-white text-5xl sm:text-6xl md:text-7xl font-im-fell-english leading-tight">
                 50
