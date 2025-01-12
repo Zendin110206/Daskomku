@@ -12,7 +12,7 @@
         gems: {{ $gems }},
 
         // State default
-        state: 'Interview',
+        state: '{{ $current_state }}',
 
         // Search data
         searchTerm: '',
@@ -36,12 +36,13 @@
         async updateState(a, sh, g, st) {
             try {
                 const response = await fetch('{{ route('admin.dashboard.update', ['dashboard'=>1]) }}', {
-                    method: 'PATCH',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     },
                     body: JSON.stringify({
+                        _method: 'patch',
                         pengumuman_on : a,
                         isi_jadwal_on : sh,
                         role_on : g,
@@ -52,9 +53,6 @@
                 if (!response.ok) {
                     throw new Error('Failed to update state');
                 }
-
-                const result = await response.json();
-                console.log(result); // Debug: Log the server's response
             } catch (error) {
                 console.error(error);
                 alert('An error occurred while updating the state.');

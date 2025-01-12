@@ -33,7 +33,7 @@ class DashboardController extends Controller
             'announcement' => $record->pengumuman_on,
             'shift' => $record->isi_jadwal_on,
             'gems' => $record->role_on,
-            'state' => Stage::find($record->current_stage_id)->name,
+            'current_state' => Stage::find($record->current_stage_id)->name,
         ];
         return view('admin.dashboard', $data);
     }
