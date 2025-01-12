@@ -149,11 +149,11 @@
             // Methods: Reset
             // ----------------------
             confirmResetPlot() {
-                alert('All Plot has been reset (dummy).');
+                alert('All plots has been reset (dummy).');
                 this.isResetPlotOpen = false;
             },
             confirmResetShift() {
-                alert('All Shift data has been reset (dummy).');
+                alert('All shifts has been reset (dummy).');
                 this.isResetShiftOpen = false;
             },
 
@@ -242,15 +242,15 @@
         </button>
 
         <!-- View Plot -->
-        <button
+        <a href="{{ route('admin.view-plot') }}"
             class="flex-1 bg-hijau-tua text-white font-im-fell-english
-                   rounded-[30px] py-4 sm:py-6 md:py-6
-                   text-lg sm:text-2xl md:text-3xl text-center
-                   hover:opacity-90 hover:shadow-lg transition"
-            @click="isViewPlotOpen = true"
-        >
-            View Plot
-        </button>
+                    rounded-[30px] py-4 sm:py-6 md:py-6
+                    text-lg sm:text-2xl md:text-3xl text-center
+                    hover:opacity-90 hover:shadow-lg transition">
+            <button>
+                View Plot
+            </button>
+        </a>
 
         <!-- Add Shift -->
         <button

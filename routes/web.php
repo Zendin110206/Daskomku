@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\AdminSessionController;
-use App\Http\Controllers\CaasController;
-use App\Http\Controllers\CaasStageController;
+use App\Http\Controllers\UserAsistenController;
+use App\Http\Controllers\UserCaasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlottinganController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\StageController;
@@ -62,10 +61,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     $resources = [
         'announcement' => AnnouncementController::class,
-        'caas' => CaasController::class,
         'shift' => ShiftController::class,
         'view-plot' => PlottinganController::class,
-        'caas-stage' => CaasStageController::class,
+        'asisten' => UserAsistenController::class,
+        'caas' => UserCaasController::class,
         'gems' => RoleController::class,
         'stage' => StageController::class,
         'dashboard' => DashboardController::class,
