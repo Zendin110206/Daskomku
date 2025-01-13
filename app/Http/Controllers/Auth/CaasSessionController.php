@@ -27,7 +27,7 @@ class CaasSessionController extends Controller
         
         $request->session()->regenerate();
         
-        return redirect()->intended('/caas/home');
+        return redirect()->intended('/home');
     }
 
     /**

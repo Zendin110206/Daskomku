@@ -88,7 +88,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     }
 });
 
-Route::prefix('caas')->name('caas.')->group(function () {
+Route::name('caas.')->group(function () {
     Route::get('home', function () {
         return view('CaAs.HomePageCaAs');
     })->name('home');

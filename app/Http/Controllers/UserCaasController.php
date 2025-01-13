@@ -95,6 +95,24 @@ class UserCaasController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if ($request->has('setPass')) {
+            if ($request->filled('setPass')) {
+                $validated = $request->validate([
+                    'setPass' => 'required|string|max:255'
+                ]);
+                
+                $caas = Caas::with(['user'])->findOrFail($id);
+                $caas->user->update([
+                    'password' => bcrypt($validated['setPass']),
+                ]);
+
+                return response()->json(['message' => 'Password updated successfully.'], 200);
+            } else {
+                // Handle the case where 'set_pass' is empty
+                return response()->json(['error' => 'Password cannot be empty.'], 422);
+            }
+        }
+
         $validated = $request->validate([
             // 'nim' => 'required|string|max:12', // kan gak bisa edit nim di frontend admin
             'name' => 'nullable|string|max:255',

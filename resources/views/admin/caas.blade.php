@@ -191,11 +191,9 @@ function manageCaAs() {
         // Modal "Set CaAs" -> simpan
         saveSetCaas() {
             // Cari data berdasarkan NIM
-            const found = this.caasList.find(item => item.nim == this.setNim);
-            if (found) {
-                alert(`Password for NIM ${this.setNim} changed to: ${this.setPassword}`);
-                // Misal kita perbarui pass di caasList
-                found.password = this.setPassword;
+            const index = this.caasList.findIndex(item => item.nim === this.setNim);
+            if (index !== -1) {
+                updateCaas(this.caasList[index].id, {setPass: this.setPassword})
             } else {
                 alert(`NIM ${this.setNim} not found!`);
             }

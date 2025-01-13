@@ -178,9 +178,9 @@ function manageAsisten() {
         // Modal "Set Asisten" -> simpan
         saveSetAsisten() {
             // Cari data berdasarkan kodeAsisten
-            const found = this.asistenList.find(item => item.kodeAsisten == this.setKode);
-            if (found) {
-                alert(`Password for Kode ${this.setKode} changed to: ${this.setPassword}`);
+            const index = this.asistenList.findIndex(item => item.kodeAsisten == this.setKode);
+            if (index !== -1) {
+                updateAsisten(this.asistenList[index].id, {setPass: this.setPassword})
             } else {
                 alert(`Kode Asisten ${this.setKode} not found!`);
             }

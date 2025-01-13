@@ -66,6 +66,24 @@ class UserAsistenController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if ($request->has('setPass')) {
+            if ($request->filled('setPass')) {
+                $validated = $request->validate([
+                    'setPass' => 'required|string|max:255'
+                ]);
+
+                $user = User::findOrFail($id);
+                $user->update([
+                    'password' => bcrypt($validated['setPass']),
+                ]);
+
+                return response()->json(['message' => 'Password updated successfully.'], 200);
+            } else {
+                // Handle the case where 'set_pass' is empty
+                return response()->json(['error' => 'Password cannot be empty.'], 422);
+            }
+        }
+
         $validated = $request->validate([
             'kodeAsisten' => 'required|string|max:12',
             'namaLengkap' => 'nullable|string|max:255',
