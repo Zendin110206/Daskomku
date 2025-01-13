@@ -87,6 +87,7 @@ function manageCaAs() {
         addNim: '',
         addName: '',
         addEmail: '',
+        addPassword: '',
         addMajor: '',
         addClass: '',
         addGems: '',
@@ -173,6 +174,7 @@ function manageCaAs() {
             this.addNim = '';
             this.addName = '';
             this.addEmail = '';
+            this.addPassword = '';
             this.addMajor = '';
             this.addClass = '';
             this.addGems = '';
@@ -202,6 +204,9 @@ function manageCaAs() {
         // Modal "Add CaAs" -> simpan
         saveAddCaas() {
             this.caasList.push({
+                id: this.caasList.length > 0 
+                    ? Math.max(...this.caasList.map(caas => caas.id)) + 1 
+                    : 1, // If the list is empty, start with 1
                 nim: this.addNim || '000000000000',
                 name: this.addName || 'No Name',
                 email: this.addEmail || 'No Email',
@@ -211,7 +216,17 @@ function manageCaAs() {
                 status: this.addStatus || 'N/A',
                 state: this.addState || 'N/A'
             });
-            alert(`New CaAs with NIM ${this.addNim} added.`);
+            createCaas({
+                nim: this.addNim || '000000000000',
+                name: this.addName || 'No Name',
+                email: this.addEmail || 'No Email',
+                major: this.addMajor || 'N/A',
+                password: this.addPassword || 'N/A',
+                className: this.addClass || 'N/A',
+                gems: this.addGems || 'N/A',
+                status: this.addStatus || 'N/A',
+                state: this.addState || 'N/A'
+            });
             this.isAddOpen = false;
             this.resetAddForm();
         },
@@ -265,7 +280,7 @@ function manageCaAs() {
         },
         deleteCaas() {
             this.caasList = this.caasList.filter(c => c.nim !== this.selectedCaas.nim);
-            alert(`CaAs with NIM ${this.selectedCaas.nim} deleted.`);
+            deleteCaas(this.selectedCaas.id);
             this.isDeleteOpen = false;
             this.selectedCaas = null;
         },
@@ -640,6 +655,16 @@ function manageCaAs() {
                         class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                         placeholder="Enter email..."
                         x-model="addEmail"
+                    >
+                </div>
+                <!-- Password -->
+                <div>
+                    <label class="block text-xl mb-1">Password</label>
+                    <input 
+                        type="password"
+                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
+                        placeholder="Enter password..."
+                        x-model="addPassword"
                     >
                 </div>
                 <!-- Major -->

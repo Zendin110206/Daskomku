@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Caas;
 use App\Models\Role;
 use App\Models\Stage;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserCaasController extends Controller
@@ -41,7 +42,48 @@ class UserCaasController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validated = $request->validate([
+            'nim' => 'required|string|max:12',
+            'password' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'major' => 'nullable|string|max:255',
+            'className' => 'nullable|string|max:255',
+            'gems' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+        ]);
+
+        $user = User::create([
+            'nim' => $validated['nim'],
+            'password' => bcrypt($validated['password']),
+        ]);
+
+        $user->profile()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'major' => $validated['major'],
+            'class' => $validated['className'],
+        ]);
+
+        $role = Role::firstOrCreate(['name' => $validated['gems']]);
+
+        Caas::create([
+            'user_id' => $user->id,
+            'role_id' => $role->id,
+        ]);
+
+        $stage = Stage::firstOrCreate(
+            ['name' => $validated['state']], // Search condition
+            ['name' => $validated['state']] // Values to insert if not found
+        );
+
+        $user->caasStage()->create([
+            'stage_id' => $stage->id,
+            'status' => $validated['status'],
+        ]);
+
+        return response()->json(['success' => 'Successfully created new CaAs'], 201);
     }
 
     /**
@@ -49,7 +91,6 @@ class UserCaasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validate incoming request data
         $validated = $request->validate([
             'nim' => 'required|string|max:12',
             'name' => 'nullable|string|max:255',
@@ -61,15 +102,12 @@ class UserCaasController extends Controller
             'state' => 'nullable|string|max:255',
         ]);
 
-        // Find the Caas record by ID
         $caas = Caas::with(['user.profile', 'role', 'user.caasStage'])->findOrFail($id);
 
-        // Update User details
         $caas->user->update([
             'nim' => $validated['nim'],
         ]);
         
-        // Update Profile details
         $caas->user->profile()->updateOrCreate(
             ['user_id' => $caas->user->id],
             [
@@ -80,17 +118,14 @@ class UserCaasController extends Controller
             ]
         );
 
-        // Update Role details
         $role = Role::firstOrCreate(['name' => $validated['gems']]);
         $caas->update(['role_id' => $role->id]);
 
-        $stage = Stage::where('name', $request->state)->first();
+        $stage = Stage::firstOrCreate(
+            ['name' => $validated['state']], // Search condition
+            ['name' => $validated['state']] // Values to insert if not found
+        );
 
-        if (!$stage) {
-            // Handle case where the Stage doesn't exist
-            return response()->json(['error' => 'Invalid stage name provided'], 422);
-        }
-        // Update CaasStage details
         $caas->user->caasStage()->updateOrCreate(
             ['user_id' => $caas->user->id],
             [
@@ -98,6 +133,8 @@ class UserCaasController extends Controller
                 'stage_id' => $stage->id,
             ]
         );
+
+        return response()->json(['success' => 'Successfully updated CaAs'], 200);
     }
 
     /**
@@ -105,6 +142,6 @@ class UserCaasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Caas::destroy($id);
     }
 }
