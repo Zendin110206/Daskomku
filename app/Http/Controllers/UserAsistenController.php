@@ -21,7 +21,7 @@ class UserAsistenController extends Controller
         // Map data to match the desired structure
         $asistenList = $users->map(function ($user) {
             return [
-                'id' => $user->id, // Assuming this is the User ID
+                'id' => $user->id,
                 'kodeAsisten' => $user->nim ?? '',
                 'nama_lengkap' => $user->profile->name ?? '',
                 'divisi' => $user->profile->major ?? '',
