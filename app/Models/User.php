@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'nim',
         'password',
+        'is_admin',
     ];
 
     /**

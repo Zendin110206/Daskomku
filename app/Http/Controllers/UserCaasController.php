@@ -54,10 +54,14 @@ class UserCaasController extends Controller
             'state' => 'nullable|string|max:255',
         ]);
 
-        $user = User::create([
-            'nim' => $validated['nim'],
-            'password' => bcrypt($validated['password']),
-        ]);
+        try {
+            $user = User::create([
+                'nim' => $validated['nim'],
+                'password' => bcrypt($validated['password']),
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['error' => 'That NIM already exists.'], 409);
+        }
 
         $user->profile()->create([
             'name' => $validated['name'],
@@ -92,7 +96,7 @@ class UserCaasController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'nim' => 'required|string|max:12',
+            // 'nim' => 'required|string|max:12', // kan gak bisa edit nim di frontend admin
             'name' => 'nullable|string|max:255',
             'email' => 'nullable|string|max:255',
             'major' => 'nullable|string|max:255',
@@ -104,9 +108,9 @@ class UserCaasController extends Controller
 
         $caas = Caas::with(['user.profile', 'role', 'user.caasStage'])->findOrFail($id);
 
-        $caas->user->update([
-            'nim' => $validated['nim'],
-        ]);
+        // $caas->user->update([
+        //     'nim' => $validated['nim'],
+        // ]);
         
         $caas->user->profile()->updateOrCreate(
             ['user_id' => $caas->user->id],

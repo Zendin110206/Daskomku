@@ -4,32 +4,70 @@
 
 @push('scripts')
 <script>
+async function createAsisten(newAsistenData) {
+    try {
+        const response = await fetch('/admin/asisten', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(newAsistenData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json(); // Get the error message from the server
+            throw new Error(errorData.error || 'Failed to create Asisten');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+async function updateAsisten(asistenId, updatedData) {
+    try {
+        updatedData._method = "patch";
+        const response = await fetch(`/admin/asisten/${asistenId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update Asisten');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function deleteAsisten(AsistenId) {
+    try {
+        const response = await fetch(`/admin/asisten/${AsistenId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete Asisten');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 function manageAsisten() {
     return {
         // ----------------------
         // Data & Pagination
         // ----------------------
-        asistenList: [
-            {
-                kodeAsisten: 'AS001',
-                nama_lengkap: 'Aulia Rahma',
-                password: 'pwAulia',
-                divisi: 'Academic',
-            },
-            {
-                kodeAsisten: 'AS002',
-                nama_lengkap: 'John Doe',
-                password: 'pwJohn',
-                divisi: 'Laboratory',
-            },
-            {
-                kodeAsisten: 'AS003',
-                nama_lengkap: 'Jane Smith',
-                password: 'pwJane',
-                divisi: 'Academic',
-            },
-            // ... tambahkan data lain ...
-        ],
+        asistenList: @json($asistenList),
         showEntries: 10,
         searchTerm: '',
         currentPage: 1,
@@ -72,7 +110,7 @@ function manageAsisten() {
             if (!term) return this.asistenList;
             return this.asistenList.filter(item =>
                 item.kodeAsisten.toLowerCase().includes(term) ||
-                item.nama_lengkap.toLowerCase().includes(term) ||
+                item.namaLengkap.toLowerCase().includes(term) ||
                 item.divisi.toLowerCase().includes(term)
             );
         },
@@ -143,7 +181,6 @@ function manageAsisten() {
             const found = this.asistenList.find(item => item.kodeAsisten == this.setKode);
             if (found) {
                 alert(`Password for Kode ${this.setKode} changed to: ${this.setPassword}`);
-                found.password = this.setPassword;
             } else {
                 alert(`Kode Asisten ${this.setKode} not found!`);
             }
@@ -153,13 +190,21 @@ function manageAsisten() {
 
         // Modal "Add Asisten" -> simpan
         saveAddAsisten() {
+            createAsisten({
+                kodeAsisten: this.addKode,
+                namaLengkap: this.addName || '',
+                divisi: this.addDivisi || '',
+                password: this.addPassword,
+            });
             this.asistenList.push({
+                id: this.asistenList.length > 0
+                        ? Math.max(...this.asistenList.map(asisten => asisten.id)) + 1
+                        : 2, // If the list is empty, start with 2
                 kodeAsisten: this.addKode || 'AS000',
-                nama_lengkap: this.addName || 'No Name',
+                namaLengkap: this.addName || 'No Name',
                 password: this.addPassword || 'pwDefault',
                 divisi: this.addDivisi || 'Other'
             });
-            alert(`New Asisten with Kode ${this.addKode} added.`);
             this.isAddOpen = false;
             this.resetAddForm();
         },
@@ -188,8 +233,12 @@ function manageAsisten() {
         saveEditAsisten() {
             const index = this.asistenList.findIndex(item => item.kodeAsisten === this.selectedAsisten.kodeAsisten);
             if (index !== -1) {
+                updateAsisten(this.selectedAsisten.id, {
+                    kodeAsisten: this.selectedAsisten.kodeAsisten,
+                    namaLengkap: this.selectedAsisten.namaLengkap || '',
+                    divisi: this.selectedAsisten.divisi || ''
+                })
                 this.asistenList[index] = { ...this.selectedAsisten };
-                alert(`Data Asisten Kode ${this.selectedAsisten.kodeAsisten} updated.`);
             }
             this.isEditOpen = false;
             this.selectedAsisten = null;
@@ -202,7 +251,7 @@ function manageAsisten() {
         },
         deleteAsisten() {
             this.asistenList = this.asistenList.filter(a => a.kodeAsisten !== this.selectedAsisten.kodeAsisten);
-            alert(`Asisten with Kode ${this.selectedAsisten.kodeAsisten} deleted.`);
+            deleteAsisten(this.selectedAsisten.id);
             this.isDeleteOpen = false;
             this.selectedAsisten = null;
         },
@@ -338,10 +387,6 @@ function manageAsisten() {
                         <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Nama Lengkap
                         </th>
-                        <!-- Password -->
-                        <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
-                            Password
-                        </th>
                         <!-- Divisi -->
                         <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             Divisi
@@ -365,11 +410,7 @@ function manageAsisten() {
                             ></td>
                             <!-- Nama Lengkap -->
                             <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
-                                x-text="asisten.nama_lengkap"
-                            ></td>
-                            <!-- Password -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
-                                x-text="asisten.password"
+                                x-text="asisten.namaLengkap"
                             ></td>
                             <!-- Divisi -->
                             <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
@@ -577,10 +618,10 @@ function manageAsisten() {
             <hr class="border-white/50 mb-6" />
 
             <p class="text-xl sm:text-2xl mb-2">
-                Format file: (Kode Asisten, Nama Lengkap, Divisi, Password, etc.)
+                Format file: (Kode Asisten, Nama Lengkap, Divisi, etc.)
             </p>
             <div class="bg-custom-gray rounded-2xl p-4 sm:p-6 mb-4 text-biru-tua">
-                <p>Kode, Nama, Divisi, Password ...</p>
+                <p>Kode, Nama, Divisi...</p>
             </div>
 
             <!-- Pilih File -->
@@ -633,9 +674,8 @@ function manageAsisten() {
             <template x-if="selectedAsisten">
                 <div class="space-y-3 text-lg">
                     <p><strong>Kode Asisten:</strong> <span x-text="selectedAsisten.kodeAsisten"></span></p>
-                    <p><strong>Nama Lengkap:</strong> <span x-text="selectedAsisten.nama_lengkap"></span></p>
+                    <p><strong>Nama Lengkap:</strong> <span x-text="selectedAsisten.namaLengkap"></span></p>
                     <p><strong>Divisi:</strong> <span x-text="selectedAsisten.divisi"></span></p>
-                    <p><strong>Password:</strong> <span x-text="selectedAsisten.password"></span></p>
                 </div>
             </template>
         </div>
@@ -680,7 +720,7 @@ function manageAsisten() {
                         <input 
                             type="text" 
                             class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
-                            x-model="selectedAsisten.nama_lengkap"
+                            x-model="selectedAsisten.namaLengkap"
                         >
                     </div>
                     <!-- Divisi -->
@@ -690,15 +730,6 @@ function manageAsisten() {
                             type="text" 
                             class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedAsisten.divisi"
-                        >
-                    </div>
-                    <!-- Password -->
-                    <div>
-                        <label class="block text-xl mb-1">Password</label>
-                        <input 
-                            type="text" 
-                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
-                            x-model="selectedAsisten.password"
                         >
                     </div>
                 </div>

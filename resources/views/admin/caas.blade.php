@@ -16,10 +16,12 @@ async function createCaas(newCaasData) {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to create CAAS');
+            const errorData = await response.json(); // Get the error message from the server
+            throw new Error(errorData.error || 'Failed to create CAAS');
         }
     } catch (error) {
         console.error('Error:', error);
+        throw error;
     }
 }
 
@@ -202,33 +204,39 @@ function manageCaAs() {
         },
 
         // Modal "Add CaAs" -> simpan
-        saveAddCaas() {
-            this.caasList.push({
-                id: this.caasList.length > 0 
-                    ? Math.max(...this.caasList.map(caas => caas.id)) + 1 
-                    : 1, // If the list is empty, start with 1
-                nim: this.addNim || '000000000000',
-                name: this.addName || 'No Name',
-                email: this.addEmail || 'No Email',
-                major: this.addMajor || 'N/A',
-                className: this.addClass || 'N/A',
-                gems: this.addGems || 'N/A',
-                status: this.addStatus || 'N/A',
-                state: this.addState || 'N/A'
-            });
-            createCaas({
-                nim: this.addNim || '000000000000',
-                name: this.addName || 'No Name',
-                email: this.addEmail || 'No Email',
-                major: this.addMajor || 'N/A',
-                password: this.addPassword || 'N/A',
-                className: this.addClass || 'N/A',
-                gems: this.addGems || 'N/A',
-                status: this.addStatus || 'N/A',
-                state: this.addState || 'N/A'
-            });
-            this.isAddOpen = false;
-            this.resetAddForm();
+        saveAddCaas: async function () {
+            try {
+                // Prepare the new CAAS data
+                const newCaas = {
+                    nim: this.addNim || '000000000000',
+                    name: this.addName || 'No Name',
+                    email: this.addEmail || 'No Email',
+                    major: this.addMajor || 'N/A',
+                    password: this.addPassword || 'N/A',
+                    className: this.addClass || 'N/A',
+                    gems: this.addGems || 'N/A',
+                    status: this.addStatus || 'N/A',
+                    state: this.addState || 'N/A',
+                };
+
+                // Attempt to create the CAAS on the server
+                await createCaas(newCaas);
+
+                // If successful, push the new CAAS into caasList
+                this.caasList.push({
+                    id: this.caasList.length > 0
+                        ? Math.max(...this.caasList.map(caas => caas.id)) + 1
+                        : 1, // If the list is empty, start with 1
+                    ...newCaas,
+                });
+
+                // Close the modal and reset the form
+                this.isAddOpen = false;
+                this.resetAddForm();
+            } catch (error) {
+                console.error('Failed to create CAAS:', error.message);
+                alert('Failed to add CAAS: ' + error.message); // Show an error message to the user
+            }
         },
 
         // Modal "Import Excel" -> simpan
@@ -257,7 +265,6 @@ function manageCaAs() {
             // Temukan index data, lalu update
             const index = this.caasList.findIndex(item => item.nim === this.selectedCaas.nim);
             if (index !== -1) {
-                this.caasList[index] = { ...this.selectedCaas };
                 updateCaas(this.selectedCaas.id, {
                     name: this.selectedCaas.name,
                     nim: this.selectedCaas.nim,
@@ -268,6 +275,7 @@ function manageCaAs() {
                     status: this.selectedCaas.status,
                     state: this.selectedCaas.state,
                 })
+                this.caasList[index] = { ...this.selectedCaas };
             }
             this.isEditOpen = false;
             this.selectedCaas = null;
@@ -279,8 +287,8 @@ function manageCaAs() {
             this.isDeleteOpen = true;
         },
         deleteCaas() {
-            this.caasList = this.caasList.filter(c => c.nim !== this.selectedCaas.nim);
             deleteCaas(this.selectedCaas.id);
+            this.caasList = this.caasList.filter(c => c.nim !== this.selectedCaas.nim);
             this.isDeleteOpen = false;
             this.selectedCaas = null;
         },

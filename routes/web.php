@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\AdminSessionController;
+use App\Http\Controllers\Auth\CaasSessionController;
 use App\Http\Controllers\UserAsistenController;
 use App\Http\Controllers\UserCaasController;
 use App\Http\Controllers\DashboardController;
@@ -48,23 +49,21 @@ Route::get('/login', function () {
     return view('CaAs.loginCaas');
 });
 
-//maaf, aku gak nyadar kalau udah ada, gak nydar jadi route ku masih dibawah, minta tolong sesuiakan ya, sorry2
-// aman bro, skrg cuma 27 line doang buat backend ini. di bawah ini ada 27 route dari admin.auth (get), admin.auth.login (post), admin.auth.logout (delete), admin.caas.create (post), admin.caas (get), admin.caas.update (put/patch)... php artisan route:list
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('home', function () {
         return view('admin.home');
-    })->name('home');
+    })->name('home'); // namanya jadi admin.home karena method prefix()
     
     Route::get('reset-password', function () {
         return view('admin.reset-password');
-    })->name('reset-password');
+    })->name('reset-password'); // jadi admin.reset-password
 
-    Route::resource('auth', AdminSessionController::class)->only(['index', 'store'])->names([
-        'index' => 'auth',
-        'store' => 'auth.login',
+    Route::resource('login', AdminSessionController::class)->only(['index', 'store'])->names([
+        'index' => 'login', // jadi admin.login, ini halaman login di /admin/login
+        'store' => 'login.authenticate', // jadi admin.login.authenticate
     ]);
-
-    Route::post('auth/logout', [AdminSessionController::class, 'destroy'])->name('auth.logout');
+    // Ini logout terpisah karena kalo pake Route::resource dia jadi DELETE /admin/login/{login}
+    Route::post('logout', [AdminSessionController::class, 'destroy'])->name('logout');
 
     $resources = [
         'announcement' => AnnouncementController::class,
@@ -87,4 +86,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'update' => "$key.update",
             ]);
     }
+});
+
+Route::prefix('caas')->name('caas.')->group(function () {
+    Route::get('home', function () {
+        return view('CaAs.HomePageCaAs');
+    })->name('home');
+    
+    Route::get('reset-password', function () {
+        return view('CaAs.ChangePassword');
+    })->name('reset-password');
+
+    Route::resource('login', CaasSessionController::class)->only(['index', 'store'])->names([
+        'index' => 'login',
+        'store' => 'login.authenticate',
+    ]);
+
+    Route::post('logout', [CaasSessionController::class, 'destroy'])->name('logout');
 });
