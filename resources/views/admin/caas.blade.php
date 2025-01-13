@@ -4,7 +4,61 @@
 
 @push('scripts')
 <script>
+async function createCaas(newCaasData) {
+    try {
+        const response = await fetch('/admin/caas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(newCaasData),
+        });
 
+        if (!response.ok) {
+            throw new Error('Failed to create CAAS');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function updateCaas(caasId, updatedData) {
+    try {
+        updatedData._method = "patch";
+        const response = await fetch(`/admin/caas/${caasId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update CAAS');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function deleteCaas(caasId) {
+    try {
+        const response = await fetch(`/admin/caas/${caasId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete CAAS');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 function manageCaAs() {
     return {
@@ -33,7 +87,6 @@ function manageCaAs() {
         addNim: '',
         addName: '',
         addEmail: '',
-        addPassword: '',
         addMajor: '',
         addClass: '',
         addGems: '',
@@ -120,7 +173,6 @@ function manageCaAs() {
             this.addNim = '';
             this.addName = '';
             this.addEmail = '';
-            this.addPassword = '';
             this.addMajor = '';
             this.addClass = '';
             this.addGems = '';
@@ -153,7 +205,6 @@ function manageCaAs() {
                 nim: this.addNim || '000000000000',
                 name: this.addName || 'No Name',
                 email: this.addEmail || 'No Email',
-                password: this.addPassword || '',
                 major: this.addMajor || 'N/A',
                 className: this.addClass || 'N/A',
                 gems: this.addGems || 'N/A',
@@ -192,7 +243,16 @@ function manageCaAs() {
             const index = this.caasList.findIndex(item => item.nim === this.selectedCaas.nim);
             if (index !== -1) {
                 this.caasList[index] = { ...this.selectedCaas };
-                alert(`Data CaAs NIM ${this.selectedCaas.nim} updated.`);
+                updateCaas(this.selectedCaas.id, {
+                    name: this.selectedCaas.name,
+                    nim: this.selectedCaas.nim,
+                    email: this.selectedCaas.email,
+                    major: this.selectedCaas.major,
+                    className: this.selectedCaas.className,
+                    gems: this.selectedCaas.gems,
+                    status: this.selectedCaas.status,
+                    state: this.selectedCaas.state,
+                })
             }
             this.isEditOpen = false;
             this.selectedCaas = null;
@@ -582,16 +642,6 @@ function manageCaAs() {
                         x-model="addEmail"
                     >
                 </div>
-                <!-- Password -->
-                <div>
-                    <label class="block text-xl mb-1">Password</label>
-                    <input 
-                        type="password"
-                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
-                        placeholder="Enter password..."
-                        x-model="addPassword"
-                    >
-                </div>
                 <!-- Major -->
                 <div>
                     <label class="block text-xl mb-1">Major</label>
@@ -741,7 +791,6 @@ function manageCaAs() {
                     <p><strong>NIM:</strong> <span x-text="selectedCaas.nim"></span></p>
                     <p><strong>Name:</strong> <span x-text="selectedCaas.name"></span></p>
                     <p><strong>Email:</strong> <span x-text="selectedCaas.email"></span></p>
-                    <p><strong>Password:</strong> <span x-text="selectedCaas.password"></span></p>
                     <p><strong>Major:</strong> <span x-text="selectedCaas.major"></span></p>
                     <p><strong>Class:</strong> <span x-text="selectedCaas.className"></span></p>
                     <p><strong>Gems:</strong> <span x-text="selectedCaas.gems"></span></p>
@@ -812,15 +861,6 @@ function manageCaAs() {
                             x-model="selectedCaas.email"
                         >
                     </div>
-                    <!-- Password -->
-                    <div>
-                        <label class="block text-xl mb-1">Password</label>
-                        <input 
-                            type="text" 
-                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
-                            x-model="selectedCaas.password"
-                        >
-                    </div>
                     <!-- Major -->
                     <div>
                         <label class="block text-xl mb-1">Major</label>
@@ -856,7 +896,11 @@ function manageCaAs() {
                             x-model="selectedCaas.status"
                         >
                             <template x-for="sts in statuses" :key="sts">
-                                <option :value="sts" x-text="sts"></option>
+                                 <option 
+                                    x-bind:value="sts" 
+                                    x-text="sts"
+                                    x-bind:selected="sts === selectedCaas.status"
+                                ></option>
                             </template>
                         </select>
                     </div>
@@ -868,7 +912,11 @@ function manageCaAs() {
                             x-model="selectedCaas.state"
                         >
                             <template x-for="st in states" :key="st">
-                                <option :value="st" x-text="st"></option>
+                                 <option
+                                    x-bind:value="st" 
+                                    x-text="st"
+                                    x-bind:selected="st === selectedCaas.state"
+                                ></option>
                             </template>
                         </select>
                     </div>

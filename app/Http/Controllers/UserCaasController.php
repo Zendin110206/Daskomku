@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Caas;
-use App\Models\Profile;
 use App\Models\Role;
-use App\Models\User;
-use App\Models\CaasStage;
+use App\Models\Stage;
 use Illuminate\Http\Request;
 
 class UserCaasController extends Controller
@@ -22,15 +20,15 @@ class UserCaasController extends Controller
         // Map data to match the desired structure
         $caasList = $caas->map(function ($caas) {
             return [
+                'id' => $caas->id,
                 'nim' => $caas->user->nim ?? '',
                 'name' => $caas->user->profile->name ?? '',
-                'email' => $caas->user->email ?? '', // Assuming 'email' exists in User
-                'password' => '', // Avoid passing actual passwords
+                'email' => $caas->user->profile->email ?? '',
                 'major' => $caas->user->profile->major ?? '',
                 'className' => $caas->user->profile->class ?? '',
                 'gems' => $caas->role->name ?? '',
-                'status' => $caas->user->caasStage->stage_id ?? 'unknown', // Assuming 'status' exists in Caas
-                'state' => $caas->user->caasStage->status ?? 'unknown', // Assuming 'state' exists in Caas
+                'state' => $caas->user->caasStage->stage->name ?? 'unknown',
+                'status' => $caas->user->caasStage->status ?? 'unknown',
             ];
         });
 
@@ -44,30 +42,6 @@ class UserCaasController extends Controller
     public function store(Request $request)
     {
         
-         
-        
-        
-        
-        
-        
-        
-        
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -75,7 +49,55 @@ class UserCaasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate incoming request data
+        $validated = $request->validate([
+            'nim' => 'required|string|max:12',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'major' => 'nullable|string|max:255',
+            'className' => 'nullable|string|max:255',
+            'gems' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+        ]);
+
+        // Find the Caas record by ID
+        $caas = Caas::with(['user.profile', 'role', 'user.caasStage'])->findOrFail($id);
+
+        // Update User details
+        $caas->user->update([
+            'nim' => $validated['nim'],
+        ]);
+        
+        // Update Profile details
+        $caas->user->profile()->updateOrCreate(
+            ['user_id' => $caas->user->id],
+            [
+                'name' => $validated['name'],
+                'major' => $validated['major'],
+                'class' => $validated['className'],
+                'email' => $validated['email'],
+            ]
+        );
+
+        // Update Role details
+        $role = Role::firstOrCreate(['name' => $validated['gems']]);
+        $caas->update(['role_id' => $role->id]);
+
+        $stage = Stage::where('name', $request->state)->first();
+
+        if (!$stage) {
+            // Handle case where the Stage doesn't exist
+            return response()->json(['error' => 'Invalid stage name provided'], 422);
+        }
+        // Update CaasStage details
+        $caas->user->caasStage()->updateOrCreate(
+            ['user_id' => $caas->user->id],
+            [
+                'status' => $validated['status'],
+                'stage_id' => $stage->id,
+            ]
+        );
     }
 
     /**
