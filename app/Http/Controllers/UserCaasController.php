@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Caas;
-use App\Models\Profile;
 use App\Models\Role;
+use App\Models\Stage;
 use App\Models\User;
-use App\Models\CaasStage;
 use Illuminate\Http\Request;
 
 class UserCaasController extends Controller
@@ -22,15 +21,15 @@ class UserCaasController extends Controller
         // Map data to match the desired structure
         $caasList = $caas->map(function ($caas) {
             return [
+                'id' => $caas->id,
                 'nim' => $caas->user->nim ?? '',
                 'name' => $caas->user->profile->name ?? '',
-                'email' => $caas->user->email ?? '', // Assuming 'email' exists in User
-                'password' => '', // Avoid passing actual passwords
+                'email' => $caas->user->profile->email ?? '',
                 'major' => $caas->user->profile->major ?? '',
                 'className' => $caas->user->profile->class ?? '',
                 'gems' => $caas->role->name ?? '',
-                'status' => $caas->user->caasStage->stage_id ?? 'unknown', // Assuming 'status' exists in Caas
-                'state' => $caas->user->caasStage->status ?? 'unknown', // Assuming 'state' exists in Caas
+                'state' => $caas->user->caasStage->stage->name ?? 'unknown',
+                'status' => $caas->user->caasStage->status ?? 'unknown',
             ];
         });
 
@@ -43,31 +42,52 @@ class UserCaasController extends Controller
      */
     public function store(Request $request)
     {
-        
-         
-        
-        
-        
-        
-        
-        
-        
-    }
+        $validated = $request->validate([
+            'nim' => 'required|string|max:12',
+            'password' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'major' => 'nullable|string|max:255',
+            'className' => 'nullable|string|max:255',
+            'gems' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        try {
+            $user = User::create([
+                'nim' => $validated['nim'],
+                'password' => bcrypt($validated['password']),
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['error' => 'That NIM already exists.'], 409);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $user->profile()->create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'major' => $validated['major'],
+            'class' => $validated['className'],
+        ]);
+
+        $role = Role::firstOrCreate(['name' => $validated['gems']]);
+
+        Caas::create([
+            'user_id' => $user->id,
+            'role_id' => $role->id,
+        ]);
+
+        $stage = Stage::firstOrCreate(
+            ['name' => $validated['state']], // Search condition
+            ['name' => $validated['state']] // Values to insert if not found
+        );
+
+        $user->caasStage()->create([
+            'stage_id' => $stage->id,
+            'status' => $validated['status'],
+        ]);
+
+        return response()->json(['success' => 'Successfully created new CaAs'], 201);
     }
 
     /**
@@ -75,7 +95,68 @@ class UserCaasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if ($request->has('setPass')) {
+            if ($request->filled('setPass')) {
+                $validated = $request->validate([
+                    'setPass' => 'required|string|max:255'
+                ]);
+                
+                $caas = Caas::with(['user'])->findOrFail($id);
+                $caas->user->update([
+                    'password' => bcrypt($validated['setPass']),
+                ]);
+
+                return response()->json(['message' => 'Password updated successfully.'], 200);
+            } else {
+                // Handle the case where 'set_pass' is empty
+                return response()->json(['error' => 'Password cannot be empty.'], 422);
+            }
+        }
+
+        $validated = $request->validate([
+            // 'nim' => 'required|string|max:12', // kan gak bisa edit nim di frontend admin
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|max:255',
+            'major' => 'nullable|string|max:255',
+            'className' => 'nullable|string|max:255',
+            'gems' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+        ]);
+
+        $caas = Caas::with(['user.profile', 'role', 'user.caasStage'])->findOrFail($id);
+
+        // $caas->user->update([
+        //     'nim' => $validated['nim'],
+        // ]);
+        
+        $caas->user->profile()->updateOrCreate(
+            ['user_id' => $caas->user->id],
+            [
+                'name' => $validated['name'],
+                'major' => $validated['major'],
+                'class' => $validated['className'],
+                'email' => $validated['email'],
+            ]
+        );
+
+        $role = Role::firstOrCreate(['name' => $validated['gems']]);
+        $caas->update(['role_id' => $role->id]);
+
+        $stage = Stage::firstOrCreate(
+            ['name' => $validated['state']], // Search condition
+            ['name' => $validated['state']] // Values to insert if not found
+        );
+
+        $caas->user->caasStage()->updateOrCreate(
+            ['user_id' => $caas->user->id],
+            [
+                'status' => $validated['status'],
+                'stage_id' => $stage->id,
+            ]
+        );
+
+        return response()->json(['success' => 'Successfully updated CaAs'], 200);
     }
 
     /**
@@ -83,6 +164,6 @@ class UserCaasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Caas::destroy($id);
     }
 }

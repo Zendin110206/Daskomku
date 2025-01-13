@@ -14,6 +14,7 @@ class Profile extends Model
         'name',
         'major',
         'class',
+        'email',
     ];
 
     public function user()

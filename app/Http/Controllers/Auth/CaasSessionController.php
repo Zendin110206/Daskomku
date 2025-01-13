@@ -8,14 +8,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminSessionController extends Controller
+class CaasSessionController extends Controller
 {
     /**
      * Display the login view.
      */
     public function index()
     {
-        return view('admin.login');
+        return view('CaAs.LoginCaAs');
     }
 
     /**
@@ -27,7 +27,7 @@ class AdminSessionController extends Controller
         
         $request->session()->regenerate();
         
-        return redirect()->intended('/admin/home');
+        return redirect()->intended('/home');
     }
 
     /**
@@ -41,6 +41,6 @@ class AdminSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect(route('admin.login'));
+        return redirect(route('caas.login'));
     }
 }

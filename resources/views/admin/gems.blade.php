@@ -4,34 +4,70 @@
 
 @push('scripts')
 <script>
+async function createGem(newGemData) {
+    try {
+        const response = await fetch('/admin/gems', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(newGemData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json(); // Get the error message from the server
+            throw new Error(errorData.error || 'Failed to create Gem');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+async function updateGem(gemId, updatedData) {
+    try {
+        updatedData._method = "patch";
+        const response = await fetch(`/admin/gems/${gemId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update Gem');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function deleteGem(gemId) {
+    try {
+        const response = await fetch(`/admin/gems/${gemId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete Gem');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 function manageGems() {
     return {
         // ----------------------
         // Data & Pagination
         // ----------------------
-        gemsList: [
-            {
-                id: 1,
-                name: 'Emerald',
-                description: 'Greenish gem with energy.',
-                quota: 10,
-                image: ''
-            },
-            {
-                id: 2,
-                name: 'Sapphire',
-                description: 'Blue gem with watery aura.',
-                quota: 7,
-                image: ''
-            },
-            {
-                id: 3,
-                name: 'Ruby',
-                description: 'Red gem blazing with fire.',
-                quota: 12,
-                image: ''
-            },
-        ],
+        gemsList: @json($rolesList),
         showEntries: 10,
         searchTerm: '',
         currentPage: 1,
@@ -125,17 +161,22 @@ function manageGems() {
             reader.readAsDataURL(file);
         },
         saveAddGem() {
-            const newId = this.gemsList.length
-                ? this.gemsList[this.gemsList.length - 1].id + 1
-                : 1;
+            createGem({
+                name: this.addName || 'No Name',
+                description: this.addDescription || 'No Description',
+                quota: parseInt(this.addQuota) || 0,
+                image: this.addImage || '',
+            });
+
             this.gemsList.push({
-                id: newId,
+                id: this.gemsList.length > 0
+                        ? Math.max(...this.gemsList.map(gem => gem.id)) + 1
+                        : 1, // If the list is empty, start with 1
                 name: this.addName || 'No Name',
                 description: this.addDescription || 'No Description',
                 quota: parseInt(this.addQuota) || 0,
                 image: this.addImage || ''
             });
-            alert(`New Gem #${newId} added.`);
             this.isAddOpen = false;
             this.resetAddForm();
         },
@@ -173,8 +214,15 @@ function manageGems() {
                 if (this.editImage) {
                     this.selectedGem.image = this.editImage;
                 }
+
+                updateGem(this.selectedGem.id, {
+                    name: this.selectedGem.name,
+                    description: this.selectedGem.description || 'No Description',
+                    quota: parseInt(this.selectedGem.quota) || 0,
+                    avatar_url: this.selectedGem.image || ''
+                });
+                
                 this.gemsList[index] = { ...this.selectedGem };
-                alert(`Gem #${this.selectedGem.id} updated.`);
             }
             this.isEditOpen = false;
             this.selectedGem = null;
@@ -184,8 +232,8 @@ function manageGems() {
             this.isDeleteOpen = true;
         },
         deleteGem() {
+            deleteGem(this.selectedGem.id);
             this.gemsList = this.gemsList.filter(g => g.id !== this.selectedGem.id);
-            alert(`Gem #${this.selectedGem.id} erased.`);
             this.isDeleteOpen = false;
             this.selectedGem = null;
         },

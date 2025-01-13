@@ -58,30 +58,9 @@ class DashboardController extends Controller
             'current_stage' => ['required', new Enum(StageEnum::class)],
         ]);
         
-        $current_stage = $validated['current_stage'];
-        $stage = Stage::where('name', $current_stage)->first();
-
-        if (!$stage) {
-            $stage = Stage::create([
-                'name' => $current_stage,
-            ]);
-        }
-
-        $validated = $request->validate([
-            'pengumuman_on' => 'required|bool',
-            'isi_jadwal_on' => 'required|bool',
-            'role_on' => 'required|bool',
-            'current_stage' => ['required', new Enum(StageEnum::class)],
-        ]);
-        
-        $current_stage = $validated['current_stage'];
-        $stage = Stage::where('name', $current_stage)->first();
-
-        if (!$stage) {
-            $stage = Stage::create([
-                'name' => $current_stage,
-            ]);
-        }
+        $stage = Stage::firstOrCreate(
+            ['name' => $validated['current_stage']]
+        );
 
         Configuration::find(1)->update([
             'pengumuman_on' => $validated['pengumuman_on'],
@@ -89,7 +68,8 @@ class DashboardController extends Controller
             'role_on' => $validated['role_on'],
             'current_stage_id' => $stage->id,
         ]);
-        return redirect(route('admin.dashboard'));
+        
+        return response()->json(['success' => 'Successfully updated configuration'], 200);
     }
 
     /**

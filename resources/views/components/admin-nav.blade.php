@@ -57,11 +57,20 @@
                     class="block w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english mb-2 hover:underline transition-all text-center">
                     Change Password
                 </a>
-                <a
-                    href="{{ route('admin.auth') }}"
-                    class="block w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english hover:underline transition-all text-center">
-                    Log Out
-                </a>
+                <form 
+                    id="logout-form" 
+                    action="{{ route('admin.logout') }}" 
+                    method="POST" 
+                    class="block w-full"
+                >
+                    @csrf
+                    <button 
+                        type="submit" 
+                        class="w-full text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english hover:underline transition-all text-center"
+                    >
+                        Log Out
+                    </button>
+                </form>
             </div>
         </div>
     </div>

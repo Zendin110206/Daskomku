@@ -4,7 +4,63 @@
 
 @push('scripts')
 <script>
+async function createCaas(newCaasData) {
+    try {
+        const response = await fetch('/admin/caas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(newCaasData),
+        });
 
+        if (!response.ok) {
+            const errorData = await response.json(); // Get the error message from the server
+            throw new Error(errorData.error || 'Failed to create CAAS');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+async function updateCaas(caasId, updatedData) {
+    try {
+        updatedData._method = "patch";
+        const response = await fetch(`/admin/caas/${caasId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update CAAS');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function deleteCaas(caasId) {
+    try {
+        const response = await fetch(`/admin/caas/${caasId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete CAAS');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 function manageCaAs() {
     return {
@@ -135,11 +191,9 @@ function manageCaAs() {
         // Modal "Set CaAs" -> simpan
         saveSetCaas() {
             // Cari data berdasarkan NIM
-            const found = this.caasList.find(item => item.nim == this.setNim);
-            if (found) {
-                alert(`Password for NIM ${this.setNim} changed to: ${this.setPassword}`);
-                // Misal kita perbarui pass di caasList
-                found.password = this.setPassword;
+            const index = this.caasList.findIndex(item => item.nim === this.setNim);
+            if (index !== -1) {
+                updateCaas(this.caasList[index].id, {setPass: this.setPassword})
             } else {
                 alert(`NIM ${this.setNim} not found!`);
             }
@@ -148,21 +202,39 @@ function manageCaAs() {
         },
 
         // Modal "Add CaAs" -> simpan
-        saveAddCaas() {
-            this.caasList.push({
-                nim: this.addNim || '000000000000',
-                name: this.addName || 'No Name',
-                email: this.addEmail || 'No Email',
-                password: this.addPassword || '',
-                major: this.addMajor || 'N/A',
-                className: this.addClass || 'N/A',
-                gems: this.addGems || 'N/A',
-                status: this.addStatus || 'N/A',
-                state: this.addState || 'N/A'
-            });
-            alert(`New CaAs with NIM ${this.addNim} added.`);
-            this.isAddOpen = false;
-            this.resetAddForm();
+        saveAddCaas: async function () {
+            try {
+                // Prepare the new CAAS data
+                const newCaas = {
+                    nim: this.addNim || '000000000000',
+                    name: this.addName || 'No Name',
+                    email: this.addEmail || 'No Email',
+                    major: this.addMajor || 'N/A',
+                    password: this.addPassword || 'N/A',
+                    className: this.addClass || 'N/A',
+                    gems: this.addGems || 'N/A',
+                    status: this.addStatus || 'N/A',
+                    state: this.addState || 'N/A',
+                };
+
+                // Attempt to create the CAAS on the server
+                await createCaas(newCaas);
+
+                // If successful, push the new CAAS into caasList
+                this.caasList.push({
+                    id: this.caasList.length > 0
+                        ? Math.max(...this.caasList.map(caas => caas.id)) + 1
+                        : 1, // If the list is empty, start with 1
+                    ...newCaas,
+                });
+
+                // Close the modal and reset the form
+                this.isAddOpen = false;
+                this.resetAddForm();
+            } catch (error) {
+                console.error('Failed to create CAAS:', error.message);
+                alert('Failed to add CAAS: ' + error.message); // Show an error message to the user
+            }
         },
 
         // Modal "Import Excel" -> simpan
@@ -191,8 +263,17 @@ function manageCaAs() {
             // Temukan index data, lalu update
             const index = this.caasList.findIndex(item => item.nim === this.selectedCaas.nim);
             if (index !== -1) {
+                updateCaas(this.selectedCaas.id, {
+                    name: this.selectedCaas.name,
+                    nim: this.selectedCaas.nim,
+                    email: this.selectedCaas.email,
+                    major: this.selectedCaas.major,
+                    className: this.selectedCaas.className,
+                    gems: this.selectedCaas.gems,
+                    status: this.selectedCaas.status,
+                    state: this.selectedCaas.state,
+                })
                 this.caasList[index] = { ...this.selectedCaas };
-                alert(`Data CaAs NIM ${this.selectedCaas.nim} updated.`);
             }
             this.isEditOpen = false;
             this.selectedCaas = null;
@@ -204,8 +285,8 @@ function manageCaAs() {
             this.isDeleteOpen = true;
         },
         deleteCaas() {
+            deleteCaas(this.selectedCaas.id);
             this.caasList = this.caasList.filter(c => c.nim !== this.selectedCaas.nim);
-            alert(`CaAs with NIM ${this.selectedCaas.nim} deleted.`);
             this.isDeleteOpen = false;
             this.selectedCaas = null;
         },
@@ -741,7 +822,6 @@ function manageCaAs() {
                     <p><strong>NIM:</strong> <span x-text="selectedCaas.nim"></span></p>
                     <p><strong>Name:</strong> <span x-text="selectedCaas.name"></span></p>
                     <p><strong>Email:</strong> <span x-text="selectedCaas.email"></span></p>
-                    <p><strong>Password:</strong> <span x-text="selectedCaas.password"></span></p>
                     <p><strong>Major:</strong> <span x-text="selectedCaas.major"></span></p>
                     <p><strong>Class:</strong> <span x-text="selectedCaas.className"></span></p>
                     <p><strong>Gems:</strong> <span x-text="selectedCaas.gems"></span></p>
@@ -812,15 +892,6 @@ function manageCaAs() {
                             x-model="selectedCaas.email"
                         >
                     </div>
-                    <!-- Password -->
-                    <div>
-                        <label class="block text-xl mb-1">Password</label>
-                        <input 
-                            type="text" 
-                            class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
-                            x-model="selectedCaas.password"
-                        >
-                    </div>
                     <!-- Major -->
                     <div>
                         <label class="block text-xl mb-1">Major</label>
@@ -856,7 +927,11 @@ function manageCaAs() {
                             x-model="selectedCaas.status"
                         >
                             <template x-for="sts in statuses" :key="sts">
-                                <option :value="sts" x-text="sts"></option>
+                                 <option 
+                                    x-bind:value="sts" 
+                                    x-text="sts"
+                                    x-bind:selected="sts === selectedCaas.status"
+                                ></option>
                             </template>
                         </select>
                     </div>
@@ -868,7 +943,11 @@ function manageCaAs() {
                             x-model="selectedCaas.state"
                         >
                             <template x-for="st in states" :key="st">
-                                <option :value="st" x-text="st"></option>
+                                 <option
+                                    x-bind:value="st" 
+                                    x-text="st"
+                                    x-bind:selected="st === selectedCaas.state"
+                                ></option>
                             </template>
                         </select>
                     </div>

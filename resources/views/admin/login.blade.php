@@ -26,7 +26,7 @@
         </p>
 
         <!-- Login Form -->
-        <form action="{{ route('admin.auth.login') }}" method="POST">
+        <form action="{{ route('admin.login.authenticate') }}" method="POST">
             @csrf
 
             <!-- Username -->
