@@ -6,6 +6,16 @@
     <title>Announcement</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+@php
+    $user = Auth::user();
+    $announcement = App\Models\Announcement::find(1);
+    if ($announcement) {
+        $message = $user->caasStage->status === "Fail" 
+            ? $announcement->fail_message 
+            : $announcement->success_message;
+    }
+    $name = $user->profile->name ?? $user->nim;
+@endphp
 <body class="bg-Announcement bg-cover bg-center bg-fixed bg-no-repeat min-h-screen max-w-full scroll-x-hide text-primary overflow-hidden flex items-center justify-center relative cursor-Wand">
 
     <img src="assets/Shadow Right.png" alt="Shadow" class="fixed right-0 top-0 w-1/2 h-full">
@@ -24,18 +34,10 @@
                 <h2 class="text-md lg:text-lg text-left font-bold mb-5">
                     Congratulations,
                     <br>
-                    STEVANNIE PRATAMA
+                    {{ $name }}
                 </h2>
                 <p class="text-xs lg:text-sm text-justify font-im-fell-english">
-                    You've Successfully Completed Your Journey!
-                    <br>
-                    <br>
-                    You've ventured far, overcome obstacles, and now, the treasures of your hard work await you. With dedication and courage, you've unlocked the <b>INTERVIEW</b>.
-                    <br>
-                    <br>
-                    Thank you for being part of the Crystal Cavern adventure. This is just the beginning. Your next chapter begins now.
-                    <br>
-                    Celebrate your achievement and continue forging your path!
+                    {{ $message }}
                 </p>
             </div>
             <div class="absolute bottom-28 mr-16">

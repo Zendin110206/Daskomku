@@ -14,8 +14,8 @@ class UserAsistenController extends Controller
     public function index()
     {
         $users = User::with('profile')
-            ->where('is_admin', 1) // Filter users with is_admin = 1
-            ->where('id', '!=', Auth::user()->id) // Exclude the specific user
+            ->where('is_admin', 1) // Filter users where they are admin
+            ->where('id', '!=', Auth::user()->id) // Exclude the current user
             ->get();
 
         // Map data to match the desired structure

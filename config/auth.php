@@ -45,14 +45,6 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        'asisten' => [
-            'driver' => 'session',
-            'provider' => 'asistens',
-        ],
-        'caas' => [
-            'driver' => 'session',
-            'provider' => 'caases',
-        ],
     ],
 
     /*

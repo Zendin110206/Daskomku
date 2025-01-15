@@ -4,22 +4,24 @@
 
 @section('content')
 <div 
-  class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center px-4 font-im-fell-english"
-  style="background-image: url('{{ asset('images/Background-1-Admin.png') }}');"
->
+  class="flex flex-col items-center justify-center min-h-screen px-4 font-im-fell-english"
+  >
     <!-- Login Card -->
-    <div 
+    <!-- <div 
       class="relative bg-custom-gray rounded-[30px] p-10 top-10 shadow-lg w-full max-w-xl mx-auto"
+    > -->
+    <div 
+    class="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-[30px] p-10 top-10 shadow-xl w-full max-w-xl mx-auto border border-white/20"
     >
         <!-- Welcome Message -->
         <h1 
-          class="text-center text-biru-tua font-im-fell-english mb-6
+          class="text-center text-putih font-im-fell-english mb-6
                  text-3xl sm:text-4xl md:text-5xl"
         >
             Welcome, Pioneer!
         </h1>
         <p 
-          class="text-center text-biru-tua mb-4
+          class="text-center text-putih mb-4
                  text-base sm:text-lg md:text-xl"
         >
             Welcome to the Admin Portal. Please log in with your credentials to access administrative tools and manage the system.
@@ -33,7 +35,7 @@
             <div class="mt-2">
                 <label 
                   for="nim" 
-                  class="block text-[24px] sm:text-[30px] md:text-[36px] text-biru-tua mb-2"
+                  class="block text-[24px] sm:text-[30px] md:text-[36px] text-putih mb-2"
                 >
                     Username
                 </label>
@@ -54,7 +56,7 @@
             <div class="mt-6">
                 <label
                   for="password"
-                  class="block text-[24px] sm:text-[30px] md:text-[36px] text-biru-tua mb-2"
+                  class="block text-[24px] sm:text-[30px] md:text-[36px] text-putih mb-2"
                 >
                     Password
                 </label>
