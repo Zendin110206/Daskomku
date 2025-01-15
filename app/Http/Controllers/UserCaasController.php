@@ -15,9 +15,32 @@ class UserCaasController extends Controller
      */
     public function index()
     {
+        $userCount = User::where('is_admin', 0)->count();
+        $caasCount = Caas::count();
+
+        if ($caasCount !== $userCount) { // in case Caas is empty somehow???
+            $users = User::with(['profile', 'caasStage', 'caas'])->where('is_admin', 0)->get();
+            foreach ($users as $user) {
+                // Skip users who already have a Caas record
+                if ($user->caas) {
+                    continue;
+                }
+        
+                // Assign a role to the user
+                $role = Role::firstOrCreate(
+                    ['name' => 'Default Role'], // Example role name
+                    ['description' => 'Default role for new CAAS users.']
+                );
+        
+                // Create the Caas record
+                Caas::create([
+                    'user_id' => $user->id,
+                    'role_id' => $role->id,
+                ]);
+            }
+        }
         // Fetch all Caas with their related User, Profile, and Role
         $caas = Caas::with(['user.profile', 'user.caasStage', 'role'])->get();
-
         // Map data to match the desired structure
         $caasList = $caas->map(function ($caas) {
             return [

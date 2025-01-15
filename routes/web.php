@@ -23,45 +23,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('CaAs.LoginCaAs');
-});
-Route::get('/CaAs', function () {
-    return view('CaAs.HomePageCaAs');
-});
-Route::get('/Profile', function () {
-    return view('CaAs.ProfileCaAs');
-});
-Route::get('/ChangePassword', function () {
-    return view('CaAs.ChangePassword');
-});
-Route::get('/Announcement', function () {
-    return view('CaAs.Announcement');
-});
-Route::get('/Assistants', function () {
-    return view('CaAs.AssistantsPage');
-});
-Route::get('/LoginAdmin', function () {
-    return view('Admin.LoginAdmin');
+Route::middleware(['auth', 'caas'])->group(function () {
+    Route::post('logout', [CaasSessionController::class, 'destroy'])->name('caas.logout');
+    Route::view('home', 'CaAs.HomePageCaAs')->name('caas.home');
+    Route::view('change-password', 'CaAs.ChangePassword')->name('caas.change-password');
+    Route::view('profile', 'CaAs.ProfileCaAs')->name('caas.profile');
+    Route::view('announcement', 'CaAs.Announcement')->name('caas.announcement');
 });
 
-Route::get('/login', function () {
-    return view('CaAs.loginCaas');
+Route::middleware('guest')->group(function () {
+    Route::get('login', [CaasSessionController::class, 'index'])->name('caas.login');
+    Route::post('login', [CaasSessionController::class, 'store'])->name('caas.login.authenticate');
+    Route::get('admin/login', [AdminSessionController::class, 'index'])->name('admin.login');
+    Route::post('admin/login', [AdminSessionController::class, 'store'])->name('admin.login.authenticate');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('home', function () {
-        return view('admin.home');
-    })->name('home'); // namanya jadi admin.home karena method prefix()
-    
-    Route::get('reset-password', function () {
-        return view('admin.reset-password');
-    })->name('reset-password'); // jadi admin.reset-password
+Route::view('/admin', 'secret');
 
-    Route::resource('login', AdminSessionController::class)->only(['index', 'store'])->names([
-        'index' => 'login', // jadi admin.login, ini halaman login di /admin/login
-        'store' => 'login.authenticate', // jadi admin.login.authenticate
-    ]);
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::view('home', 'admin.home')->name('home');
+    Route::view('reset-password', 'admin.reset-password')->name('reset-password');
+
     // Ini logout terpisah karena kalo pake Route::resource dia jadi DELETE /admin/login/{login}
     Route::post('logout', [AdminSessionController::class, 'destroy'])->name('logout');
 
@@ -88,19 +70,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     }
 });
 
-Route::name('caas.')->group(function () {
-    Route::get('home', function () {
-        return view('CaAs.HomePageCaAs');
-    })->name('home');
-    
-    Route::get('reset-password', function () {
-        return view('CaAs.ChangePassword');
-    })->name('reset-password');
-
-    Route::resource('login', CaasSessionController::class)->only(['index', 'store'])->names([
-        'index' => 'login',
-        'store' => 'login.authenticate',
-    ]);
-
-    Route::post('logout', [CaasSessionController::class, 'destroy'])->name('logout');
+Route::fallback(function () {
+    return redirect()->route('caas.login');
 });
