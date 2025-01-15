@@ -8,15 +8,15 @@
     <title>@yield('title', 'Crystal Cavern')</title>
     
     @vite('resources/css/app.css')
-    
+
     <!-- Alpine.js untuk toggle sidebar dan dropdown -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body
     x-data="{ open: false, isProfileOpen: false }"
-    class="relative min-h-screen bg-cover bg-center bg-no-repeat"
-    style="background-image: url('{{ asset('images/Background-1-Admin.png') }}');"
+    class="relative min-h-screen"
 >
+<canvas id="webgl-canvas"></canvas>
 <!-- Overlay (lapisan abu-abu 40%) -->
 <div class="absolute inset-0 bg-custom-gray opacity-40 z-0"></div>
 
@@ -41,6 +41,7 @@
     </p>
 </footer>
 </div>
+    <x-admin-background/>
     @stack('scripts')
 </body>
 </html>

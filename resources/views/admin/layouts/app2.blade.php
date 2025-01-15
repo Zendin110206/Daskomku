@@ -14,9 +14,9 @@
 </head>
 <body
     x-data="{ open: false, isProfileOpen: false }"
-    class="relative min-h-screen bg-cover bg-center bg-no-repeat"
-    style="background-image: url('{{ asset('images/Background-1-Admin.png') }}');"
+    class="relative min-h-screen"
 >
+<canvas id="webgl-canvas"></canvas>
     {{-- HEADER (fixed) --}}
     <x-admin-nav/>
 
@@ -38,6 +38,7 @@
     </p>
 </footer>
 </div>
+<x-admin-background/>
     @stack('scripts')
 </body>
 </html>

@@ -41,7 +41,7 @@
         camera.lookAt(0, 0, 0);
 
         // Background setup
-        const backgroundTexture = new THREE.TextureLoader().load('images/Background-1-Admin.png');
+        const backgroundTexture = new THREE.TextureLoader().load('/images/Background-1-Admin.png');
         const backgroundGeometry = new THREE.PlaneGeometry(frustumWidth, frustumHeight);
         const backgroundMaterial = new THREE.MeshStandardMaterial({ 
             map: backgroundTexture, 
@@ -54,7 +54,7 @@
         scene.add(background);
 
         const loader = new THREE.GLTFLoader();
-        loader.load('images/daskom.glb', 
+        loader.load('/images/daskom.glb', 
             function (gltf) {
                 scene.add(gltf.scene);
 
@@ -146,7 +146,7 @@
             lastMousePosition = { x, y };
 
             // const light = new THREE.PointLight(0xffffff, 5, 5);
-            const lightBg = new THREE.PointLight(0xffffff, 5, 3);
+            const lightBg = new THREE.PointLight(0xffffff, 3, 3);
             // light.position.set(x, y, 0.5);
             lightBg.position.set(x, y, -3);
             
@@ -167,7 +167,7 @@
                 force,
                 vx,
                 vy,
-                initialIntensity: 5
+                initialIntensity: 4
             };
 
             // scene.add(light);
