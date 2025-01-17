@@ -1,5 +1,5 @@
 <?php
-
+// database/factories/RoleFactory.php
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;

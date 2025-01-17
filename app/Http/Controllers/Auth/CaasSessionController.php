@@ -1,5 +1,5 @@
 <?php
-
+// app/Http/Contollers/Auth/CaasSessionController.php
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -15,7 +15,7 @@ class CaasSessionController extends Controller
      */
     public function index()
     {
-        return view('CaAs.LoginCaAs');
+        return view('CaAs.LoginCaAs'); // Blade CAAS login
     }
 
     /**
@@ -23,11 +23,11 @@ class CaasSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->authenticate(); // Akan memanggil rules() + authenticate()
         
         $request->session()->regenerate();
         
-        return redirect()->intended('/home');
+        return redirect()->intended('/home'); // Setelah login -> /home
     }
 
     /**

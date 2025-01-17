@@ -1,4 +1,5 @@
 <?php
+// app/Policies/AnnouncementPolicy.php
 
 namespace App\Policies;
 

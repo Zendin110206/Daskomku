@@ -1,5 +1,5 @@
 <?php
-
+// app/Models/Plottingan.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,18 +9,24 @@ class Plottingan extends Model
 {
     use HasFactory;
 
+    protected $table = 'plottingans';
+
     protected $fillable = [
+        'caas_id',
         'shift_id',
-        'user_id',
+        // 'stage_id', jika ada keknya kan udah cuman interview doank
     ];
 
-    public function shift()
+    // Relasi ke CAAS
+    public function caas()
     {
-        return $this->belongsTo(Shift::class, 'shift_id', 'shift_id');
+        return $this->belongsTo(Caas::class, 'caas_id');
     }
 
-    public function user()
+    // Relasi ke SHIFT
+    public function shift()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(Shift::class, 'shift_id');
     }
 }
+

@@ -1,3 +1,5 @@
+<!-- resources/views/components/admin-nav.blade.php -->
+
 <header
     class="fixed top-0 left-0 w-full bg-gray-300 h-20 md:h-22 z-40 flex items-center">
     <div class="flex justify-between w-full px-2 sm:px-4 md:px-6">

@@ -1,4 +1,5 @@
 <?php
+// app/Models/Stage.php
 
 namespace App\Models;
 

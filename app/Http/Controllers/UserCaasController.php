@@ -1,4 +1,5 @@
 <?php
+// app/Http/Contollers/UserCaasController.php
 
 namespace App\Http\Controllers;
 
@@ -25,13 +26,13 @@ class UserCaasController extends Controller
                 if ($user->caas) {
                     continue;
                 }
-        
+
                 // Assign a role to the user
                 $role = Role::firstOrCreate(
                     ['name' => 'Default Role'], // Example role name
                     ['description' => 'Default role for new CAAS users.']
                 );
-        
+
                 // Create the Caas record
                 Caas::create([
                     'user_id' => $user->id,
@@ -72,9 +73,9 @@ class UserCaasController extends Controller
             'email' => 'nullable|string|max:255',
             'major' => 'nullable|string|max:255',
             'className' => 'nullable|string|max:255',
-            'gems' => 'nullable|string|max:255',
-            'status' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
+            // 'gems' => 'nullable|string|max:255',         // Hapus 'gems' dan 'status' karena kita isi otomatis
+            // 'status' => 'nullable|string|max:255',
+            // 'state' => 'nullable|string|max:255',
         ]);
 
         try {
@@ -93,21 +94,23 @@ class UserCaasController extends Controller
             'class' => $validated['className'],
         ]);
 
-        $role = Role::firstOrCreate(['name' => $validated['gems']]);
+        $role = Role::firstOrCreate(['name' => 'No Gems']);
 
         Caas::create([
             'user_id' => $user->id,
             'role_id' => $role->id,
         ]);
 
-        $stage = Stage::firstOrCreate(
-            ['name' => $validated['state']], // Search condition
-            ['name' => $validated['state']] // Values to insert if not found
-        );
+        // Default Stage => "Administration"
+        $stage = Stage::firstOrCreate(['name' => 'Administration']);
+        // Atau jika user boleh mengirim state dari FE:
+        // $stageName = $request->input('state', 'Administration');
+        // $stage = Stage::firstOrCreate(['name' => $stageName]);
 
+        // Default status => "unknown"
         $user->caasStage()->create([
             'stage_id' => $stage->id,
-            'status' => $validated['status'],
+            'status'   => 'unknown',
         ]);
 
         return response()->json(['success' => 'Successfully created new CaAs'], 201);
@@ -123,7 +126,7 @@ class UserCaasController extends Controller
                 $validated = $request->validate([
                     'setPass' => 'required|string|max:255'
                 ]);
-                
+
                 $caas = Caas::with(['user'])->findOrFail($id);
                 $caas->user->update([
                     'password' => bcrypt($validated['setPass']),
@@ -152,7 +155,7 @@ class UserCaasController extends Controller
         // $caas->user->update([
         //     'nim' => $validated['nim'],
         // ]);
-        
+
         $caas->user->profile()->updateOrCreate(
             ['user_id' => $caas->user->id],
             [

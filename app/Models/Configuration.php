@@ -1,4 +1,5 @@
 <?php
+// app/Models/Configuration.php
 
 namespace App\Models;
 

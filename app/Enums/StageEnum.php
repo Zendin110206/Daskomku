@@ -1,4 +1,5 @@
 <?php
+// app/Enums/StageEnum.php
 
 namespace App\Enums;
 

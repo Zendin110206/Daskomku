@@ -1,5 +1,5 @@
 <?php
-
+// database/factories/ShiftFactory.php
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -9,17 +9,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ShiftFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'tanggal' => fake()->date(),            // Random date
-            'waktu' => fake()->time(),             // Random time
-            'kuota' => fake()->numberBetween(1, 50), // Random integer between 1 and 50
+            'shift_no' => $this->faker->numberBetween(1, 10),
+            'date' => $this->faker->date(),
+            'time_start' => $this->faker->time(),
+            'time_end' => $this->faker->time(),
+            'kuota' => $this->faker->numberBetween(1, 50),
         ];
     }
 }
+

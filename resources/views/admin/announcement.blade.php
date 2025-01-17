@@ -1,3 +1,4 @@
+<!-- resources/views/admin/announcement.blade.php -->
 @extends('admin.layouts.app')
 
 @section('title', 'Manage Announcement - Crystal Cavern')
@@ -6,15 +7,14 @@
 <div 
     class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6"
     x-data="{
-        passMessage: '{{ $pass }}',
-        failMessage: '{{ $fail }}',
-        link: '{{ $link }}',
+        passMessage: @js($pass),
+        failMessage: @js($fail),
+        link: @js($link),
         showPreview: false,
         checkUpdate() {
-            
-            const oneMinuteAgo = Date.now() - 10000; // Current time minus 1 minute
+            // Apakah perlu menampilkan preview? 
+            const oneMinuteAgo = Date.now() - 10000; // 10 detik (demo)
             if ({{ $lastUpdated }} && {{ $lastUpdated }} * 1000 >= oneMinuteAgo) {
-                
                 this.showPreview = true;
             }
         }
@@ -22,20 +22,13 @@
     x-init="checkUpdate()"
 >
     <!-- Page Title -->
-    <h1 
-        class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-[IM_FELL_English]"
-    >
+    <h1 class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-[IM_FELL_English]">
         Manage Announcement
     </h1>
 
     <!-- Form Container -->
-    <div 
-        class="mt-8 bg-ungu-muda rounded-[30px] p-6 sm:p-8"
-    >
-        <!-- Title -->
-        <h2 
-            class="text-white text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] mb-4"
-        >
+    <div class="mt-8 bg-ungu-muda rounded-[30px] p-6 sm:p-8">
+        <h2 class="text-white text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] mb-4">
             Announcement
         </h2>
         <hr class="border-white mb-6" />
@@ -48,13 +41,9 @@
             @csrf
             @method('patch')
 
-            <input 
-                type="hidden" 
-                name="stage_id" 
-                value="1" 
-            />
+            <input type="hidden" name="stage_id" value="1" />
 
-            <!-- Pass Message -->
+            <!-- Pass Message (textarea) -->
             <div class="mb-6">
                 <label 
                     for="passMessage"
@@ -62,18 +51,18 @@
                 >
                     Pass Message
                 </label>
-                <input
+                <textarea
                     id="passMessage"
                     name="success_message"
-                    type="text"
                     x-model="passMessage"
+                    rows="4"
                     class="w-full bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
                            focus:outline-none focus:ring-2 focus:ring-biru-tua text-base sm:text-2xl"
                     required
-                />
+                ></textarea>
             </div>
 
-            <!-- Fail Message -->
+            <!-- Fail Message (textarea) -->
             <div class="mb-6">
                 <label 
                     for="failMessage"
@@ -81,15 +70,15 @@
                 >
                     Fail Message
                 </label>
-                <input
+                <textarea
                     id="failMessage"
                     name="fail_message"
-                    type="text"
                     x-model="failMessage"
+                    rows="4"
                     class="w-full bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
                            focus:outline-none focus:ring-2 focus:ring-biru-tua text-base sm:text-2xl"
                     required
-                />
+                ></textarea>
             </div>
 
             <!-- Link -->
@@ -130,9 +119,7 @@
         x-show="showPreview"
         x-transition
     >
-        <h2 
-            class="text-white text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] mb-4"
-        >
+        <h2 class="text-white text-2xl sm:text-3xl md:text-4xl font-[IM_FELL_English] mb-4">
             Preview Announcement
         </h2>
         <hr class="border-white mb-6" />
@@ -144,8 +131,8 @@
             </p>
             <div
                 class="bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
-                       text-biru-tua text-base sm:text-2xl"
-                x-text="passMessage"
+                       text-biru-tua text-base sm:text-2xl leading-relaxed space-y-2"
+                x-html="passMessage"
             ></div>
         </div>
 
@@ -156,8 +143,8 @@
             </p>
             <div
                 class="bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
-                       text-biru-tua text-base sm:text-2xl"
-                x-text="failMessage"
+                       text-biru-tua text-base sm:text-2xl leading-relaxed space-y-2"
+                x-html="failMessage"
             ></div>
         </div>
 
@@ -170,8 +157,8 @@
                 class="bg-ungu-keputihan border border-black rounded-[30px] p-3 sm:p-4 
                        text-biru-tua text-base sm:text-2xl"
                 x-text="link"
-            > </div>
-        </div>
+            ></div>
+        </div> 
     </div>
 </div>
 @endsection

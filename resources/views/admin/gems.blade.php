@@ -1,3 +1,5 @@
+<!-- resources/views/admin/gems.blade.php -->
+
 @extends('admin.layouts.app')
 
 @section('title', 'Manage Gems - Crystal Cavern')

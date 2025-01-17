@@ -37,7 +37,7 @@
                     {{ $name }}
                 </h2>
                 <p class="text-xs lg:text-sm text-justify font-im-fell-english">
-                    {{ $message }}
+                    {!! $message !!}
                 </p>
             </div>
             <div class="absolute bottom-28 mr-16">

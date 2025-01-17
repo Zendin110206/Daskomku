@@ -1,9 +1,12 @@
+<!-- resources/views/admin/view-plot.blade.php -->
 @extends('admin.layouts.app')
 
 @section('title', 'Manage Shift - Crystal Cavern')
 
 @section('content')
-<div class="relative min-h-screen w-full max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 py-6">
+<div 
+    class="relative min-h-screen w-full max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 py-6"
+>
     <!-- HEADER: Judul & Tombol Back -->
     <div 
         class="mb-8 flex flex-col gap-4 items-center 
@@ -18,46 +21,46 @@
         </h1>
 
         <!-- Tombol Back -->
-<div>
-    <a 
-        href="javascript:history.back()" 
-        class="bg-biru-tua text-white rounded-[30px] 
-               px-4 py-3 sm:px-6 sm:py-4 
-               hover:opacity-90 hover:shadow-lg transition
-               text-lg sm:text-2xl font-im-fell-english"
-    >
-        Back
-    </a>
-</div>
-
+        <div>
+            <a 
+                href="javascript:history.back()" 
+                class="bg-biru-tua text-white rounded-[30px] 
+                       px-4 py-3 sm:px-6 sm:py-4 
+                       hover:opacity-90 hover:shadow-lg transition
+                       text-lg sm:text-2xl font-im-fell-english"
+            >
+                Back
+            </a>
+        </div>
     </div>
 
     <!-- STATISTIC CARDS -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <!-- Card: Total Shift -->
+        <!-- Card: Total Shifts -->
         <div class="bg-custom-gray rounded-[30px] p-6 flex flex-col items-center shadow-md">
             <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Total Shifts
             </p>
             <p class="text-biru-tua text-5xl sm:text-6xl md:text-7xl font-im-fell-english leading-tight">
-                20
+                {{ $totalShifts }}
             </p>
         </div>
+        <!-- Card: Taken Shifts -->
         <div class="bg-custom-gray rounded-[30px] p-6 flex flex-col items-center shadow-md">
             <p class="text-biru-tua text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2 text-center">
                 Taken Shifts
             </p>
             <p class="text-biru-tua text-5xl sm:text-6xl md:text-7xl font-im-fell-english leading-tight">
-                100
+                {{ $takenShifts }}
             </p>
         </div>
-        <!-- Card: Not Shifted -->
+        <!-- Card: Haven't Picked -->
         <div class="bg-biru-tua rounded-[30px] p-6 flex flex-col items-center shadow-md">
             <p class="text-white text-xl sm:text-2xl md:text-3xl font-im-fell-english mb-2">
                 Haven't Picked
             </p>
             <p class="text-white text-5xl sm:text-6xl md:text-7xl font-im-fell-english leading-tight">
-                50
+                {{ $havenTPicked }}
             </p>
         </div>
     </div>
@@ -97,7 +100,7 @@
                     Column Visibility
                 </button>
             </div>
-            <!-- Bagian Search -->
+            <!-- Bagian Search (manual / JS) -->
             <div class="flex items-center space-x-2">
                 <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
                     Search
@@ -148,60 +151,79 @@
                             Quota
                         </th>
                         <th 
+                            class="py-3 px-3 border-r border-black text-biru-tua
+                                   font-im-fell-english text-sm sm:text-base md:text-lg text-center"
+                        >
+                            Taken
+                        </th>
+                        <th 
                             class="py-3 px-3 text-biru-tua
                                    font-im-fell-english text-sm sm:text-base md:text-lg text-center"
                         >
-                            List
+                            Detail
                         </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white">
-                    <!-- Contoh data dummy -->
-                    <tr class="border-b border-black last:border-b-0">
-                        <td 
-                            class="py-3 px-3 border-r border-black text-biru-tua
-                                   font-im-fell-english text-sm sm:text-base text-center"
-                        >
-                            1.
-                        </td>
-                        <td 
-                            class="py-3 px-3 border-r border-black text-biru-tua
-                                   font-im-fell-english text-sm sm:text-base text-center"
-                        >
-                            Interview 1
-                        </td>
-                        <td 
-                            class="py-3 px-3 border-r border-black text-biru-tua
-                                   font-im-fell-english text-sm sm:text-base text-center"
-                        >
-                            18/12/2024
-                        </td>
-                        <td 
-                            class="py-3 px-3 border-r border-black text-biru-tua
-                                   font-im-fell-english text-sm sm:text-base text-center"
-                        >
-                            10.00 - 12.00
-                        </td>
-                        <td 
-                            class="py-3 px-3 border-r border-black text-biru-tua
-                                   font-im-fell-english text-sm sm:text-base text-center"
-                        >
-                            5
-                        </td>
-                        <td 
-                            class="py-3 px-3 text-biru-tua
-                                   font-im-fell-english text-sm sm:text-base text-center"
-                        >
-                            <!-- Tombol lihat detail -->
-                            <button 
-                                class="bg-biru-tua text-white px-3 py-1 rounded-[15px] 
-                                       hover:opacity-90 hover:shadow-md transition text-sm"
+                    @foreach($shifts as $index => $shift)
+                        <tr class="border-b border-black last:border-b-0">
+                            <!-- No. -->
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
                             >
-                                Detail
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Tambahkan baris lain di sini jika diperlukan -->
+                                {{ $index + 1 }}.
+                            </td>
+                            <!-- Shift No. -->
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
+                            >
+                                {{ $shift->shift_no }}
+                            </td>
+                            <!-- Date -->
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
+                            >
+                                {{ $shift->date }}
+                            </td>
+                            <!-- Time -->
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
+                            >
+                                {{ $shift->time_start }} - {{ $shift->time_end }}
+                            </td>
+                            <!-- Quota -->
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
+                            >
+                                {{ $shift->kuota }}
+                            </td>
+                            <!-- Taken (jumlah CAAS yang milih shift ini) -->
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
+                            >
+                                {{ $shift->plottingans_count }}
+                            </td>
+                            <!-- Detail (lihat daftar CAAS) -->
+                            <td 
+                                class="py-3 px-3 text-biru-tua
+                                       font-im-fell-english text-sm sm:text-base text-center"
+                            >
+                                <a 
+                                    href="{{ route('admin.view-plot.show', $shift->id) }}"
+                                    class="bg-biru-tua text-white px-3 py-1 rounded-[15px] 
+                                           hover:opacity-90 hover:shadow-md transition text-sm"
+                                >
+                                    Detail
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

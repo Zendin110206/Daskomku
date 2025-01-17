@@ -1,3 +1,5 @@
+<!-- resources/views/components/login-form-admin.blade.php -->
+
 <div class="w-full max-w-[500px] p-8 bg-custom-gray rounded-[30px] flex flex-col items-center">
 
     <!-- Welcome Text -->

@@ -1,3 +1,4 @@
+<!-- resources/views/admin/login.blade.php -->
 @extends('admin.layouts.guest')
 
 @section('title', 'Login Admin')

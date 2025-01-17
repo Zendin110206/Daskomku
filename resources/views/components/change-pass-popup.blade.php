@@ -1,3 +1,5 @@
+<!-- resources/views/components/change-pass-popup.blade.php -->
+
 <details class="open mt-10">
     <!-- Explore Button -->
     <summary class="mt-5 text-primary relative transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95 list-none">

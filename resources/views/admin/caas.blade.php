@@ -16,7 +16,7 @@ async function createCaas(newCaasData) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json(); // Get the error message from the server
+            const errorData = await response.json(); 
             throw new Error(errorData.error || 'Failed to create CAAS');
         }
     } catch (error) {
@@ -42,6 +42,7 @@ async function updateCaas(caasId, updatedData) {
         }
     } catch (error) {
         console.error('Error:', error);
+        throw error;
     }
 }
 
@@ -64,10 +65,19 @@ async function deleteCaas(caasId) {
 
 function manageCaAs() {
     return {
+        // ----------------------
+        // Data Awal
+        // ----------------------
         caasList: @json($caasList),
         showEntries: 10,
         searchTerm: '',
         currentPage: 1,
+
+        // ----------------------
+        // SORTING
+        // ----------------------
+        sortKey: '',   // Menyimpan kolom apa yang di-sort
+        sortAsc: 'asc', // 'asc' atau 'desc'
 
         // ----------------------
         // Modal flags
@@ -75,51 +85,78 @@ function manageCaAs() {
         isSetOpen: false,
         isAddOpen: false,
         isImportOpen: false,
-
-        // Modal untuk View / Edit / Delete
         isViewOpen: false,
         isEditOpen: false,
         isDeleteOpen: false,
 
-        // Data untuk form "Set CaAs"
+        // ----------------------
+        // Form "Set CaAs"
+        // ----------------------
         setNim: '',
         setPassword: '',
 
-        // Data untuk form "Add CaAs"
+        // ----------------------
+        // Form "Add CaAs"
+        // ----------------------
         addNim: '',
         addName: '',
         addEmail: '',
         addPassword: '',
         addMajor: '',
         addClass: '',
-        addGems: '',
+        // (Opsional) Boleh sediakan stage default
         addState: '',
-        addStatus: '',
 
-        // Daftar pilihan state & status
+        // ----------------------
+        // Data bantu Stage & Status
+        // ----------------------
         states: [
-            'Administration', 
-            'Coding & Writing Test', 
-            'Interview', 
-            'Grouping Task', 
-            'Teaching Test', 
+            'Administration',
+            'Coding & Writing Test',
+            'Interview',
+            'Grouping Task',
+            'Teaching Test',
             'Upgrading'
         ],
-        statuses: ['Pass','Fail'],
+        // Tambahkan dummy option paling awal
+        statuses: [
+            '-- Pilih Status --',
+            'unknown',
+            'Pass',
+            'Fail',
+        ],
 
-        // Data untuk form "Import Excel"
+        // ----------------------
+        // Import file
+        // ----------------------
         chosenFile: null,
 
-        // Data yang dipilih untuk View/Edit/Delete
+        // ----------------------
+        // Data terpilih (View/Edit/Delete)
+        // ----------------------
         selectedCaas: null,
+
+        // ----------------------
+        // TOAST MESSAGES
+        // ----------------------
+        successMessage: '',
+
+        showSuccessMessage(msg) {
+            this.successMessage = msg;
+
+            // Hilangkan toast setelah 3 detik
+            setTimeout(() => {
+                this.successMessage = '';
+            }, 3000);
+        },
 
         // ----------------------
         // Computed & Getter
         // ----------------------
         get filteredList() {
+            // 1. Filter by searchTerm
             const term = this.searchTerm.toLowerCase().trim();
-            if (!term) return this.caasList;
-            return this.caasList.filter(item =>
+            let filtered = this.caasList.filter(item =>
                 item.nim.toLowerCase().includes(term) ||
                 item.name.toLowerCase().includes(term) ||
                 item.email.toLowerCase().includes(term) ||
@@ -129,6 +166,20 @@ function manageCaAs() {
                 item.status.toLowerCase().includes(term) ||
                 item.state.toLowerCase().includes(term)
             );
+
+            // 2. Sorting
+            if (this.sortKey) {
+                filtered.sort((a, b) => {
+                    let valA = (a[this.sortKey] || '').toString().toLowerCase();
+                    let valB = (b[this.sortKey] || '').toString().toLowerCase();
+                    return valA.localeCompare(valB);
+                });
+                if (this.sortAsc === 'desc') {
+                    filtered.reverse();
+                }
+            }
+
+            return filtered;
         },
         get totalPages() {
             return Math.ceil(this.filteredList.length / this.showEntries);
@@ -179,9 +230,7 @@ function manageCaAs() {
             this.addPassword = '';
             this.addMajor = '';
             this.addClass = '';
-            this.addGems = '';
             this.addState = '';
-            this.addStatus = '';
         },
         // Reset file import
         resetImport() {
@@ -189,11 +238,16 @@ function manageCaAs() {
         },
 
         // Modal "Set CaAs" -> simpan
-        saveSetCaas() {
-            // Cari data berdasarkan NIM
+        async saveSetCaas() {
+            // Cari data by NIM
             const index = this.caasList.findIndex(item => item.nim === this.setNim);
             if (index !== -1) {
-                updateCaas(this.caasList[index].id, {setPass: this.setPassword})
+                try {
+                    await updateCaas(this.caasList[index].id, { setPass: this.setPassword });
+                    this.showSuccessMessage(`Password for NIM ${this.setNim} updated!`);
+                } catch (error) {
+                    alert(error.message);
+                }
             } else {
                 alert(`NIM ${this.setNim} not found!`);
             }
@@ -202,9 +256,9 @@ function manageCaAs() {
         },
 
         // Modal "Add CaAs" -> simpan
-        saveAddCaas: async function () {
+        async saveAddCaas() {
             try {
-                // Prepare the new CAAS data
+                // Data minimal
                 const newCaas = {
                     nim: this.addNim || '000000000000',
                     name: this.addName || 'No Name',
@@ -212,81 +266,92 @@ function manageCaAs() {
                     major: this.addMajor || 'N/A',
                     password: this.addPassword || 'N/A',
                     className: this.addClass || 'N/A',
-                    gems: this.addGems || 'N/A',
-                    status: this.addStatus || 'N/A',
-                    state: this.addState || 'N/A',
                 };
 
-                // Attempt to create the CAAS on the server
                 await createCaas(newCaas);
 
-                // If successful, push the new CAAS into caasList
+                // Setelah sukses, masukkan ke array lokal
                 this.caasList.push({
                     id: this.caasList.length > 0
-                        ? Math.max(...this.caasList.map(caas => caas.id)) + 1
-                        : 1, // If the list is empty, start with 1
+                        ? Math.max(...this.caasList.map(c => c.id)) + 1
+                        : 1,
                     ...newCaas,
+                    // Tampilkan default di FE
+                    state: this.addState || 'Administration',
+                    status: 'unknown',
+                    gems: '',
                 });
 
-                // Close the modal and reset the form
+                this.showSuccessMessage('New CaAs created successfully!');
                 this.isAddOpen = false;
                 this.resetAddForm();
             } catch (error) {
                 console.error('Failed to create CAAS:', error.message);
-                alert('Failed to add CAAS: ' + error.message); // Show an error message to the user
+                alert('Failed to add CAAS: ' + error.message);
             }
         },
 
-        // Modal "Import Excel" -> simpan
+        // Modal "Import Excel" -> simpan (dummy)
         saveImport() {
+            // Hanya simulasi
             alert('File imported (dummy).');
             this.isImportOpen = false;
             this.resetImport();
         },
 
-        // ----------------------
         // View / Edit / Delete
-        // ----------------------
-        // 1. VIEW
         viewCaas(caas) {
-            // Salin data agar aslinya tak terpengaruh
             this.selectedCaas = JSON.parse(JSON.stringify(caas));
             this.isViewOpen = true;
         },
 
-        // 2. EDIT
         editCaas(caas) {
             this.selectedCaas = JSON.parse(JSON.stringify(caas));
+            if (!this.statuses.includes(this.selectedCaas.status)) {
+                this.selectedCaas.status = '-- Pilih Status --';
+            }
             this.isEditOpen = true;
         },
-        saveEditCaas() {
-            // Temukan index data, lalu update
+        async saveEditCaas() {
             const index = this.caasList.findIndex(item => item.nim === this.selectedCaas.nim);
             if (index !== -1) {
-                updateCaas(this.selectedCaas.id, {
-                    name: this.selectedCaas.name,
-                    nim: this.selectedCaas.nim,
-                    email: this.selectedCaas.email,
-                    major: this.selectedCaas.major,
-                    className: this.selectedCaas.className,
-                    gems: this.selectedCaas.gems,
-                    status: this.selectedCaas.status,
-                    state: this.selectedCaas.state,
-                })
-                this.caasList[index] = { ...this.selectedCaas };
+                if (this.selectedCaas.status === '-- Pilih Status --') {
+                    this.selectedCaas.status = this.caasList[index].status;
+                }
+
+                try {
+                    await updateCaas(this.selectedCaas.id, {
+                        name: this.selectedCaas.name,
+                        nim: this.selectedCaas.nim,
+                        email: this.selectedCaas.email,
+                        major: this.selectedCaas.major,
+                        className: this.selectedCaas.className,
+                        gems: this.selectedCaas.gems,
+                        status: this.selectedCaas.status,
+                        state: this.selectedCaas.state,
+                    });
+                    this.caasList[index] = { ...this.selectedCaas };
+                    this.showSuccessMessage('CaAs updated successfully!');
+                } catch (error) {
+                    alert(error.message);
+                }
             }
             this.isEditOpen = false;
             this.selectedCaas = null;
         },
 
-        // 3. DELETE (show modal)
         confirmDelete(caas) {
             this.selectedCaas = { ...caas };
             this.isDeleteOpen = true;
         },
-        deleteCaas() {
-            deleteCaas(this.selectedCaas.id);
-            this.caasList = this.caasList.filter(c => c.nim !== this.selectedCaas.nim);
+        async deleteCaas() {
+            try {
+                await deleteCaas(this.selectedCaas.id);
+                this.caasList = this.caasList.filter(c => c.nim !== this.selectedCaas.nim);
+                this.showSuccessMessage(`CaAs with NIM ${this.selectedCaas.nim} deleted!`);
+            } catch (error) {
+                alert(error.message);
+            }
             this.isDeleteOpen = false;
             this.selectedCaas = null;
         },
@@ -300,6 +365,22 @@ function manageCaAs() {
     class="relative w-full max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 py-6"
     x-data="manageCaAs()"
 >
+    <!-- 
+      ====================================
+      TOAST CONTAINER (WAJIB x-cloak & style="display:none;") 
+      ====================================
+    -->
+    <div 
+        class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-md z-50"
+        x-show="successMessage !== ''"
+        x-cloak
+        style="display: none;"
+        x-transition.opacity
+    >
+        <p x-text="successMessage"></p>
+    </div>
+    <!-- END TOAST CONTAINER -->
+
     <!-- Judul Halaman -->
     <h1 class="text-center text-white text-3xl sm:text-4xl md:text-5xl font-im-fell-english mt-4">
         Manage CaAs
@@ -308,7 +389,7 @@ function manageCaAs() {
     <!-- Tombol utama -->
     <div class="mt-8 bg-abu-abu-keunguan rounded-2xl p-6 sm:p-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Set CaAs (buka modal) -->
+            <!-- Set CaAs -->
             <button
                 class="bg-merah-tua rounded-[30px] py-3 sm:py-4 
                        text-white text-lg sm:text-2xl md:text-3xl font-im-fell-english
@@ -317,7 +398,7 @@ function manageCaAs() {
             >
                 Set CaAs
             </button>
-            <!-- Add CaAs Account (buka modal) -->
+            <!-- Add CaAs Account -->
             <button
                 class="bg-biru-tua rounded-[30px] py-3 sm:py-4 
                        text-white text-lg sm:text-2xl md:text-3xl font-im-fell-english
@@ -326,7 +407,7 @@ function manageCaAs() {
             >
                 Add CaAs Account
             </button>
-            <!-- Import Excel (buka modal) -->
+            <!-- Import Excel -->
             <button
                 class="bg-hijau-tua rounded-[30px] py-3 sm:py-4 
                        text-white text-lg sm:text-2xl md:text-3xl font-im-fell-english
@@ -371,36 +452,76 @@ function manageCaAs() {
 
     <!-- Tabel Data CaAs -->
     <div class="mt-8 bg-custom-gray rounded-2xl p-4 sm:p-6 md:p-8">
-        <!-- Show Entries & Search -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-            <!-- Show Entries -->
-            <div class="flex items-center space-x-2 mb-3 md:mb-0">
-                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
-                    Show
-                </label>
-                <input 
-                    type="number" 
-                    x-model="showEntries"
-                    min="1"
-                    class="w-16 bg-white border border-black rounded-[10px] p-1 
-                           text-center focus:outline-none focus:ring-1 focus:ring-biru-tua text-sm sm:text-base"
-                >
-                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
-                    Entries
-                </label>
+        <!-- Show Entries & Search & Sorting -->
+        <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-4">
+            <!-- Show Entries & Search -->
+            <div class="flex flex-col md:flex-row md:items-center gap-4">
+                <!-- Show Entries -->
+                <div class="flex items-center space-x-2">
+                    <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
+                        Show
+                    </label>
+                    <input 
+                        type="number" 
+                        x-model="showEntries"
+                        min="1"
+                        class="w-16 bg-white border border-black rounded-[10px] p-1 
+                               text-center focus:outline-none focus:ring-1 focus:ring-biru-tua text-sm sm:text-base"
+                    >
+                    <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
+                        Entries
+                    </label>
+                </div>
+                <!-- Search -->
+                <div class="flex items-center space-x-2">
+                    <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
+                        Search
+                    </label>
+                    <input 
+                        type="text" 
+                        x-model="searchTerm"
+                        class="bg-white border border-black rounded-[30px] px-3 py-1 
+                               focus:outline-none focus:ring-1 focus:ring-biru-tua text-sm sm:text-base"
+                        placeholder="Type anything..."
+                    >
+                </div>
             </div>
-            <!-- Search -->
-            <div class="flex items-center space-x-2">
-                <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
-                    Search
-                </label>
-                <input 
-                    type="text" 
-                    x-model="searchTerm"
-                    class="bg-white border border-black rounded-[30px] px-3 py-1 
-                           focus:outline-none focus:ring-1 focus:ring-biru-tua text-sm sm:text-base"
-                    placeholder="Type anything..."
-                >
+
+            <!-- Sorting: Sort By & Order -->
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <!-- Sort By -->
+                <div class="flex items-center space-x-2">
+                    <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
+                        Sort By
+                    </label>
+                    <select 
+                        class="bg-white border border-black rounded-[10px] p-1 text-sm sm:text-base"
+                        x-model="sortKey"
+                    >
+                        <option value="">No Sort</option>
+                        <option value="nim">NIM</option>
+                        <option value="name">Name</option>
+                        <option value="email">Email</option>
+                        <option value="major">Major</option>
+                        <option value="className">Class</option>
+                        <option value="gems">Gems</option>
+                        <option value="status">Status</option>
+                        <option value="state">State</option>
+                    </select>
+                </div>
+                <!-- Order Asc/Desc -->
+                <div class="flex items-center space-x-2">
+                    <label class="text-biru-tua text-base sm:text-lg md:text-xl font-im-fell-english">
+                        Order
+                    </label>
+                    <select 
+                        class="bg-white border border-black rounded-[10px] p-1 text-sm sm:text-base"
+                        x-model="sortAsc"
+                    >
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -410,7 +531,7 @@ function manageCaAs() {
                 <!-- Thead -->
                 <thead class="bg-white">
                     <tr class="border-b border-black">
-                        <!-- Kolom No. (index) -->
+                        <!-- No. -->
                         <th class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base md:text-lg">
                             No.
                         </th>
@@ -456,36 +577,41 @@ function manageCaAs() {
                     <!-- Loop data (paginatedData) -->
                     <template x-for="(caas, i) in paginatedData" :key="caas.nim">
                         <tr class="border-b border-black last:border-b-0">
-                            <!-- No. (index + 1) -->
+                            <!-- No. (index+1) -->
                             <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base">
                                 <span x-text="(currentPage - 1) * showEntries + i + 1"></span>.
                             </td>
                             <!-- NIM -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.nim"
                             ></td>
                             <!-- Name -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.name"
                             ></td>
                             <!-- Email -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.email"
                             ></td>
                             <!-- Major -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.major"
                             ></td>
                             <!-- Class -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.className"
                             ></td>
                             <!-- Gems -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.gems"
                             ></td>
-
-                            <!-- Status (warna mencolok) -->
+                            <!-- Status -->
                             <td 
                                 class="py-3 px-3 border-r border-black font-im-fell-english text-sm sm:text-base"
                                 :class="{
@@ -495,12 +621,11 @@ function manageCaAs() {
                                 }"
                                 x-text="caas.status"
                             ></td>
-
                             <!-- State -->
-                            <td class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
+                            <td 
+                                class="py-3 px-3 border-r border-black text-biru-tua font-im-fell-english text-sm sm:text-base"
                                 x-text="caas.state"
                             ></td>
-
                             <!-- Action Buttons -->
                             <td class="py-3 px-3 text-biru-tua font-im-fell-english text-sm sm:text-base">
                                 <div class="flex flex-wrap gap-2">
@@ -693,39 +818,16 @@ function manageCaAs() {
                         x-model="addClass"
                     >
                 </div>
-                <!-- Gems -->
-                <div>
-                    <label class="block text-xl mb-1">Gems</label>
-                    <input 
-                        type="text"
-                        class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
-                        placeholder="Enter gems..."
-                        x-model="addGems"
-                    >
-                </div>
-                <!-- State (select) -->
-                <div>
-                    <label class="block text-xl mb-1">State</label>
+                <!-- Optional Stage (jika admin mau set stage langsung) -->
+                <div class="sm:col-span-2">
+                    <label class="block text-xl mb-1">Stage (Optional)</label>
                     <select 
                         class="w-full bg-abu-abu3 rounded-2xl p-3 text-biru-tua"
                         x-model="addState"
                     >
-                        <option value="" disabled>Select state...</option>
+                        <option value="" disabled>Select stage...</option>
                         <template x-for="st in states" :key="st">
                             <option :value="st" x-text="st"></option>
-                        </template>
-                    </select>
-                </div>
-                <!-- Status (select) -->
-                <div class="sm:col-span-2">
-                    <label class="block text-xl mb-1">Status</label>
-                    <select 
-                        class="w-full bg-abu-abu3 rounded-2xl p-3 text-biru-tua"
-                        x-model="addStatus"
-                    >
-                        <option value="" disabled>Select status...</option>
-                        <template x-for="sts in statuses" :key="sts">
-                            <option :value="sts" x-text="sts"></option>
                         </template>
                     </select>
                 </div>
@@ -797,7 +899,7 @@ function manageCaAs() {
     </div>
 
     <!-- -----------------------------
-         MODAL: View CaAs (Read-Only)
+         MODAL: View CaAs
          ----------------------------- -->
     <div 
         class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
@@ -864,7 +966,7 @@ function manageCaAs() {
 
             <template x-if="selectedCaas">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- NIM (readonly, bisa dibuka jika mau) -->
+                    <!-- NIM (readonly) -->
                     <div>
                         <label class="block text-xl mb-1">NIM</label>
                         <input 
@@ -917,6 +1019,7 @@ function manageCaAs() {
                             type="text" 
                             class="w-full bg-custom-gray rounded-2xl p-3 text-biru-tua"
                             x-model="selectedCaas.gems"
+                            placeholder="Kosongkan jika belum di tahap Upgrading"
                         >
                     </div>
                     <!-- Status -->
@@ -927,11 +1030,7 @@ function manageCaAs() {
                             x-model="selectedCaas.status"
                         >
                             <template x-for="sts in statuses" :key="sts">
-                                 <option 
-                                    x-bind:value="sts" 
-                                    x-text="sts"
-                                    x-bind:selected="sts === selectedCaas.status"
-                                ></option>
+                                <option :value="sts" x-text="sts"></option>
                             </template>
                         </select>
                     </div>
@@ -943,11 +1042,7 @@ function manageCaAs() {
                             x-model="selectedCaas.state"
                         >
                             <template x-for="st in states" :key="st">
-                                 <option
-                                    x-bind:value="st" 
-                                    x-text="st"
-                                    x-bind:selected="st === selectedCaas.state"
-                                ></option>
+                                <option :value="st" x-text="st"></option>
                             </template>
                         </select>
                     </div>

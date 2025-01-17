@@ -1,3 +1,5 @@
+<!-- database/migrations/2025_01_01_070051_create_stages_table.php -->
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,12 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shifts', function (Blueprint $table) {
+        Schema::create('stages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date('tanggal');
-            $table->time('waktu');
-            $table->integer('kuota');
+            $table->string('name', 100); // isinya sih 'Administrasi', 'Tes Tulis dan koding', 'Wawancara', 'tucil'. 'teaching' 'levelling'.
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shifts');
+        Schema::dropIfExists('stages');
     }
 };

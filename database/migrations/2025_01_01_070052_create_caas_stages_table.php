@@ -1,3 +1,5 @@
+<!-- database/migrations/2025_01_01_070052_create_caas_stages_table.php -->
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;

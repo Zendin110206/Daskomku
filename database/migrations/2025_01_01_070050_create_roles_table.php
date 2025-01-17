@@ -1,3 +1,5 @@
+<!-- database/migrations/2025_01_01_070050_create_roles_table.php -->
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;

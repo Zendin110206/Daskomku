@@ -1,4 +1,5 @@
 <?php
+// app/Policies/ConfigurationPolicy.php
 
 namespace App\Policies;
 

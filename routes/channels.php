@@ -1,3 +1,5 @@
+<!-- routes/channels.php -->
+
 <?php
 
 use Illuminate\Support\Facades\Broadcast;

@@ -2,70 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserAsistenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = User::with('profile')
-            ->where('is_admin', 1) // Filter users where they are admin
-            ->where('id', '!=', Auth::user()->id) // Exclude the current user
+            ->where('is_admin', 1)
+            ->where('id', '!=', Auth::user()->id)
             ->get();
 
-        // Map data to match the desired structure
         $asistenList = $users->map(function ($user) {
             return [
-                'id' => $user->id,
-                'kodeAsisten' => $user->nim ?? '',
-                'nama_lengkap' => $user->profile->name ?? '',
-                'divisi' => $user->profile->major ?? '',
+                'id'            => $user->id,
+                'kodeAsisten'   => $user->nim ?? '',
+                'nama_lengkap'  => $user->profile->name ?? '',
+                'divisi'        => $user->profile->major ?? '',
             ];
         });
 
         return view('admin.asisten', ['asistenList' => $asistenList]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kodeAsisten' => 'required|string|max:12',
-            'password' => 'required|string|max:255',
-            'namaLengkap' => 'nullable|string|max:255',
-            'divisi' => 'nullable|string|max:255',
+            'kodeAsisten'  => 'required|string|max:12',
+            'password'     => 'required|string|max:255',
+            'nama_lengkap' => 'nullable|string|max:255',
+            'divisi'       => 'nullable|string|max:255',
         ]);
 
+        // Coba insert user
         try {
             $user = User::create([
-                'nim' => $validated['kodeAsisten'],
+                'nim'      => $validated['kodeAsisten'],
                 'password' => bcrypt($validated['password']),
                 'is_admin' => 1,
             ]);
         } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json(['error' => 'That kodeAsisten cannot be used.'], 409);
+            // 409 = Conflict
+            return response('Kode Asisten sudah terpakai.', 409);
         }
 
         $user->profile()->create([
-            'name' => $validated['namaLengkap'],
-            'major' => $validated['divisi'],
+            'name'  => $validated['nama_lengkap'] ?? '',
+            'major' => $validated['divisi'] ?? '',
         ]);
 
-        return response()->json(['success' => 'Successfully created new Asisten'], 201);
+        // Sukses => kembalikan status 201 (Created)
+        return response('Asisten created', 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
+        // Jika "setPass" -> ganti password
         if ($request->has('setPass')) {
             if ($request->filled('setPass')) {
                 $validated = $request->validate([
@@ -73,49 +67,46 @@ class UserAsistenController extends Controller
                 ]);
 
                 $user = User::findOrFail($id);
-                $user->update([
-                    'password' => bcrypt($validated['setPass']),
-                ]);
+                $user->update(['password' => bcrypt($validated['setPass'])]);
 
-                return response()->json(['message' => 'Password updated successfully.'], 200);
+                return response('Password updated successfully', 200);
             } else {
-                // Handle the case where 'set_pass' is empty
-                return response()->json(['error' => 'Password cannot be empty.'], 422);
+                return response('Password cannot be empty.', 422);
             }
         }
 
+        // Update data
         $validated = $request->validate([
-            'kodeAsisten' => 'required|string|max:12',
-            'namaLengkap' => 'nullable|string|max:255',
-            'divisi' => 'nullable|string|max:255',
+            'kodeAsisten'  => 'required|string|max:12',
+            'nama_lengkap' => 'nullable|string|max:255',
+            'divisi'       => 'nullable|string|max:255',
         ]);
 
         $user = User::with('profile')->findOrFail($id);
 
         try {
             $user->update([
-                'nim' => $validated['kodeAsisten'],
+                'nim' => $validated['kodeAsisten']
             ]);
         } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json(['error' => 'That kodeAsisten cannot be used.'], 409);
+            return response('That kodeAsisten cannot be used.', 409);
         }
-        
+
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'name' => $validated['namaLengkap'],
-                'major' => $validated['divisi'],
+                'name'  => $validated['nama_lengkap'] ?? '',
+                'major' => $validated['divisi'] ?? '',
             ]
         );
 
-        return response()->json(['success' => 'Successfully updated asisten'], 200);
+        return response('Asisten updated', 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         User::destroy($id);
+        return response('Asisten deleted', 200);
     }
+    
 }

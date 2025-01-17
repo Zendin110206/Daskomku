@@ -1,3 +1,5 @@
+<!-- resources/views/components/change-pass-form.blade.php -->
+
 <div class="w-full max-w-lg px-4 sm:px-8 md:px-12 space-y-6 flex flex-col items-center justify-center mx-auto">
     <!-- Username Input -->
     <div class="w-full">

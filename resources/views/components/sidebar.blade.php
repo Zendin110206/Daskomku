@@ -1,3 +1,5 @@
+<!-- resources/views/components/sidebar.blade.php -->
+
 <!-- Hamburger Button -->
 <button 
     id="sidebarToggle" 

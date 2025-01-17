@@ -1,3 +1,4 @@
+<!-- resources/views/admin/layouts/guest.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
